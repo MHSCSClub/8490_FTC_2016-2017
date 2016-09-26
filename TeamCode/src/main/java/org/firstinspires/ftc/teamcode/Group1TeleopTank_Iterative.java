@@ -37,13 +37,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.TestBot;
 
 /**
- * This file provides basic Telop driving for a Pushbot robot.
+ * This file provides basic Telop driving for Group 1's robot.
  * The code is structured as an Iterative OpMode
  *
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
+ * This OpMode uses the common Group2 hardware class to define the devices on the robot.
  * All device access is managed through the org.firstinspires.ftc.teamcode.Group2 class.
  *
- * This particular OpMode executes a basic Tank Drive Teleop for a PushBot
+ * This particular OpMode executes a basic Tank Drive Teleop for Group 1's robot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
  *
@@ -55,9 +55,7 @@ import org.firstinspires.ftc.teamcode.TestBot;
 public class Group1TeleopTank_Iterative extends OpMode{
 
     /* Declare OpMode members. */
-    Group1 robot       = new Group1(); // use the class created to define a Pushbot's hardware
-                                                         // could also use HardwarePushbotMatrix class.
-
+    Group1 robot = new Group1();
 
     /*
      * Code to run ONCE when the driver hits INIT

@@ -8,15 +8,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This is NOT an opmode.
  *
  * This class can be used to define all the specific hardware for a single robot.
- * In this case that robot is a Pushbot.
- * See org.firstinspires.ftc.teamcode.Group2TeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
+ * In this case that robot is designed by group 1.
  *
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
  *
- * Motor channel:  Left  drive motor:        "left"
- * Motor channel:  Right drive motor:        "right"
+ * Motor channel:  Front left drive motor:         "front_left"
+ * Motor channel:  Front right drive motor:        "front_right"
+ * Motor channel:  Back left front drive mo        "back_left"
+ * Motor channel:  Back right back drive motor:    "back_right"
  */
+
 public class Group2
 {
     /* Public OpMode members. */
