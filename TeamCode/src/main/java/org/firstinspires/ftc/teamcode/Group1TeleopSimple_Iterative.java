@@ -34,8 +34,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.TestBot;
-
 /**
  * This file provides basic Telop driving for Group 1's robot.
  * The code is structured as an Iterative OpMode
@@ -51,8 +49,8 @@ import org.firstinspires.ftc.teamcode.TestBot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Group 1: Teleop Tank", group="Group1")
-public class Group1TeleopTank_Iterative extends OpMode{
+@TeleOp(name="Group 1: Teleop Simple", group="Group1")
+public class Group1TeleopSimple_Iterative extends OpMode{
 
     /* Declare OpMode members. */
     Group1 robot = new Group1();
@@ -91,20 +89,28 @@ public class Group1TeleopTank_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        double left;
-        double right;
+        double drive;
+        double turn;
 
-        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
-        robot.frontLeftMotor.setPower(left);
-        robot.frontRightMotor.setPower(right);
-        robot.backLeftMotor.setPower(left);
-        robot.backRightMotor.setPower(right);
+
+
+        drive = -gamepad1.left_stick_y;
+        turn = gamepad1.right_stick_x;
+        if(turn != 0){
+            robot.frontLeftMotor.setPower(turn);
+            robot.frontRightMotor.setPower(-turn);
+            robot.backLeftMotor.setPower(turn);
+            robot.backRightMotor.setPower(-turn);
+        } else {
+            robot.frontLeftMotor.setPower(drive);
+            robot.frontRightMotor.setPower(drive);
+            robot.backLeftMotor.setPower(drive);
+            robot.backRightMotor.setPower(drive);
+        }
 
         // Send telemetry message to signify robot running;
-        telemetry.addData("left",  "%.2f", left);
-        telemetry.addData("right", "%.2f", right);
+        telemetry.addData("left",  "%.2f", drive);
+        telemetry.addData("right", "%.2f", drive);
         updateTelemetry(telemetry);
     }
 
