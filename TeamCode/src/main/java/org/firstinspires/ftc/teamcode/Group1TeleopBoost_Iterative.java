@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Group 1: Teleop Special Boost", group="Group1")
+@TeleOp(name="Group 1: Teleop (Jack and Yi's Boost)", group="Group1")
 public class Group1TeleopBoost_Iterative extends OpMode{
 
     /* Declare OpMode members. */
