@@ -91,13 +91,25 @@ public class TestbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        if (gamepad1.right_bumper) {
-            robot.leftMotor.setPower(1);
-            robot.rightMotor.setPower(1);
+        double power;
+        if(gamepad1.right_bumper){
+            power = 0.41;
+        } else if (gamepad1.left_bumper) {
+            power = 0;
+        } else if(gamepad1.a){
+            power = 0.173;
+        } else if(gamepad1.b){
+            power = 0.25;
+        } else if(gamepad1.x) {
+            power = 0.26;
+        } else if(gamepad1.y) {
+            power = 0.24;
         } else {
-            robot.leftMotor.setPower(0);
-            robot.rightMotor.setPower(0);
+            power = gamepad1.right_stick_y;
         }
+        robot.leftMotor.setPower(power);
+        robot.rightMotor.setPower(power);
+        telemetry.addData("Say", "Power is " + power);
         updateTelemetry(telemetry);
     }
 
