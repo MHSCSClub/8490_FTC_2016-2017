@@ -52,8 +52,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 
-@TeleOp(name="Testbot: Teleop Tank", group="Testbot")
-public class TestbotTeleopTank_Iterative extends OpMode{
+@TeleOp(name="Testbot: Teleop Ballshooter", group="Testbot")
+public class TestbotTeleopBallshooter_Iterative extends OpMode{
 
     /* Declare OpMode members. */
     TestBot robot = new TestBot();
