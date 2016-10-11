@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *
  * This class can be used to define all the specific hardware for a single robot.
  * In this case that robot is a Pushbot.
- * See org.firstinspires.ftc.teamcode.TestbotTeleopBallshooter_Iterative
+ * See org.firstinspires.ftc.teamcode.BallShooterTeleop_Iterative
  *
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:  Left  drive motor:        "left"
  * Motor channel:  Right drive motor:        "right"
  */
-public class TestBot
+public class BallShooter
 {
     /* Public OpMode members. */
     public DcMotor  leftMotor   = null;
@@ -30,7 +30,7 @@ public class TestBot
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public TestBot(){
+    public BallShooter(){
 
     }
 

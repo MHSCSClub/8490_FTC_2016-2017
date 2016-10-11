@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:  Back right back drive motor:    "back_right"
  */
 
-public class Group2
+public class Pushbot
 {
     /* Public OpMode members. */
     public DcMotor frontLeftMotor = null;
@@ -33,7 +33,7 @@ public class Group2
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Group2(){
+    public Pushbot(){
 
     }
 

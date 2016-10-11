@@ -1,4 +1,4 @@
-/*
+package org.firstinspires.ftc.teamcode;/*
 Copyright (c) 2016 Robert Atkinson
 
 All rights reserved.
@@ -30,20 +30,18 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * This file provides basic Telop driving for a Testbot robot.
+ * This file provides basic Telop driving for Group 1's robot.
  * The code is structured as an Iterative OpMode
  *
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
- * All device access is managed through the org.firstinspires.ftc.teamcode.Group2 class.
+ * All device access is managed through the org.firstinspires.ftc.teamcode.Pushbot class.
  *
- * This particular OpMode executes a basic Tank Drive Teleop for a testbot
+ * This particular OpMode executes a basic Tank Drive Teleop for Group 1's robot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
  *
@@ -51,12 +49,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-
-@TeleOp(name="Testbot: Teleop Ballshooter", group="Testbot")
-public class TestbotTeleopBallshooter_Iterative extends OpMode{
+@TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
+public class PushbotTeleopTank_Iterative extends OpMode{
 
     /* Declare OpMode members. */
-    TestBot robot = new TestBot();
+    Pushbot robot = new Pushbot();
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -91,25 +89,20 @@ public class TestbotTeleopBallshooter_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        double power;
-        if(gamepad1.right_bumper){
-            power = 0.41;
-        } else if (gamepad1.left_bumper) {
-            power = 0;
-        } else if(gamepad1.a){
-            power = 0.173;
-        } else if(gamepad1.b){
-            power = 0.25;
-        } else if(gamepad1.x) {
-            power = 0.26;
-        } else if(gamepad1.y) {
-            power = 0.24;
-        } else {
-            power = gamepad1.right_stick_y;
-        }
-        robot.leftMotor.setPower(power);
-        robot.rightMotor.setPower(power);
-        telemetry.addData("Say", "Power is " + power);
+        double left;
+        double right;
+
+        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
+        left = -gamepad1.left_stick_y;
+        right = -gamepad1.right_stick_y;
+        robot.frontLeftMotor.setPower(left);
+        robot.frontRightMotor.setPower(right);
+        robot.backLeftMotor.setPower(left);
+        robot.backRightMotor.setPower(right);
+
+        // Send telemetry message to signify robot running;
+        telemetry.addData("left",  "%.2f", left);
+        telemetry.addData("right", "%.2f", right);
         updateTelemetry(telemetry);
     }
 
@@ -118,8 +111,10 @@ public class TestbotTeleopBallshooter_Iterative extends OpMode{
      */
     @Override
     public void stop() {
-        robot.leftMotor.setPower(0);
-        robot.rightMotor.setPower(0);
+        robot.frontLeftMotor.setPower(0);
+        robot.frontRightMotor.setPower(0);
+        robot.backLeftMotor.setPower(0);
+        robot.backRightMotor.setPower(0);
     }
 
 }

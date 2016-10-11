@@ -38,8 +38,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * This file provides basic Telop driving for Group 1's robot.
  * The code is structured as an Iterative OpMode
  *
- * This OpMode uses the common Group2 hardware class to define the devices on the robot.
- * All device access is managed through the org.firstinspires.ftc.teamcode.Group2 class.
+ * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
+ * All device access is managed through the org.firstinspires.ftc.teamcode.Pushbot class.
  *
  * This particular OpMode executes a basic Tank Drive Teleop for Group 1's robot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
@@ -49,11 +49,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Group 1: Teleop Simple", group="Group1")
-public class Group1TeleopSimple_Iterative extends OpMode{
+@TeleOp(name="Pushbot: Teleop Simple", group="Pushbot")
+public class PushbotTeleopSimple_Iterative extends OpMode{
 
     /* Declare OpMode members. */
-    Group1 robot = new Group1();
+    Pushbot robot = new Pushbot();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -89,28 +89,18 @@ public class Group1TeleopSimple_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        double drive;
-        double turn;
+        float right = gamepad1.left_stick_y - gamepad1.left_stick_x;
+        float left = gamepad1.left_stick_y +  gamepad1.left_stick_x;
 
+        robot.frontLeftMotor.setPower(left);
+        robot.backLeftMotor.setPower(left);
+        robot.frontRightMotor.setPower(right);
+        robot.backRightMotor.setPower(right);
 
-
-        drive = -gamepad1.left_stick_y;
-        turn = gamepad1.right_stick_x;
-        if(turn != 0){
-            robot.frontLeftMotor.setPower(turn);
-            robot.frontRightMotor.setPower(-turn);
-            robot.backLeftMotor.setPower(turn);
-            robot.backRightMotor.setPower(-turn);
-        } else {
-            robot.frontLeftMotor.setPower(drive);
-            robot.frontRightMotor.setPower(drive);
-            robot.backLeftMotor.setPower(drive);
-            robot.backRightMotor.setPower(drive);
-        }
 
         // Send telemetry message to signify robot running;
-        telemetry.addData("left",  "%.2f", drive);
-        telemetry.addData("right", "%.2f", drive);
+        telemetry.addData("left",  "%.2f", left);
+        telemetry.addData("right", "%.2f", right);
         updateTelemetry(telemetry);
     }
 
