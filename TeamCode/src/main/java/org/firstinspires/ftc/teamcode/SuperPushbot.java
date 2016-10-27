@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,21 +17,26 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:   Front right drive motor:        "front_right"
  * Motor channel:   Back left front drive motor:    "back_left"
  * Motor channel:   Back right back drive motor:    "back_right"
+ * Motor channel:   Right ball shooter motor:       "bs_right"
+ * Motor channel:   Left ball shooter motor:        "bs_left"
  */
 
-public class Pushbot
+public class SuperPushbot
 {
     /* Public OpMode members. */
     public DcMotor frontLeftMotor = null;
     public DcMotor  frontRightMotor  = null;
     public DcMotor backLeftMotor = null;
     public DcMotor  backRightMotor  = null;
+    public DcMotor pitchRight = null;
+    public DcMotor pitchLeft = null;
+
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Pushbot(){
+    public SuperPushbot(){
 
     }
 
@@ -46,12 +50,17 @@ public class Pushbot
         frontRightMotor  = hwMap.dcMotor.get("front_right");
         backLeftMotor  = hwMap.dcMotor.get("back_left");
         backRightMotor  = hwMap.dcMotor.get("back_right");
+        pitchLeft = hwMap.dcMotor.get("bs_left");
+        pitchLeft = hwMap.dcMotor.get("bs_right");
+
 
         // Set motor direction (Invert for AndyMark motors)
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        pitchLeft.setDirection(DcMotor.Direction.FORWARD);
+        pitchLeft.setDirection(DcMotor.Direction.REVERSE);
 
 
 
@@ -61,8 +70,12 @@ public class Pushbot
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        pitchLeft.setPower(0);
+        pitchRight.setPower(0);
 
         // Set braking behavior
+        pitchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        pitchRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -75,6 +88,8 @@ public class Pushbot
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pitchLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pitchRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /***

@@ -33,6 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -52,6 +53,8 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Pushbot: Teleop (Jack and Yi's Boost)", group="Pushbot")
 public class PushbotTeleopBoost_Iterative extends OpMode{
+
+    //Constants
 
     /* Declare OpMode members. */
     Pushbot robot = new Pushbot();
@@ -92,13 +95,19 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        left_boost_movement();
+        leftBoostMovement();
+        // Send telemetry message to signify robot running;
+
+        updateTelemetry(telemetry);
     }
 
+
+
+
     /**
-     * Jack and Yi's proprietary movement method (modified for the robot
+     * Jack and Yi's proprietary movement method (modified for the new robot)
      */
-    private void left_boost_movement() {
+    private void leftBoostMovement() {
         float right = gamepad1.left_stick_y - gamepad1.left_stick_x;
         float left = gamepad1.left_stick_y +  gamepad1.left_stick_x;
 
@@ -126,9 +135,7 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
         telemetry.addData("left",  "%.2f", left);
         telemetry.addData("right", "%.2f", right);
 
-        // Send telemetry message to signify robot running;
 
-        updateTelemetry(telemetry);
     }
 
     /*
@@ -136,7 +143,7 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
 	 * scaled value is less than linear.  This is to make it easier to drive
 	 * the robot more precisely at slower speeds.
 	 */
-    double scaleInput(double dVal)  {
+    private double scaleInput(double dVal)  {
         double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
 
