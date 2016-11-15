@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -52,7 +53,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Disabled
+
 @TeleOp(name="SuperPushbot: Teleop + Ball Shooter (Jack and Yi's Boost)", group="SuperPushbot")
 public class SuperPushbotTeleopBoostBallshooter_Iterative extends OpMode{
 
@@ -98,11 +99,24 @@ public class SuperPushbotTeleopBoostBallshooter_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        leftBoostMovement();
-        activateBallshooter();
+        //leftBoostMovement();
+        //activateBallshooter();
+        activateServos();
         // Send telemetry message to signify robot running;
 
         updateTelemetry(telemetry);
+    }
+
+    private void activateServos(){
+        if(gamepad1.a){
+            robot.one.setPower(1.0);
+        } else if(gamepad1.b) {
+            robot.one.setPower(0.5);
+        } else if(gamepad1.x){
+            robot.one.setPower(-1);
+        } else {
+            robot.one.setPower(0);
+        }
     }
 
     private void activateBallshooter(){

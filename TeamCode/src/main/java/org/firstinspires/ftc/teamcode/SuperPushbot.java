@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -30,6 +32,8 @@ public class SuperPushbot
     public DcMotor  backRightMotor  = null;
     public DcMotor pitchRight = null;
     public DcMotor pitchLeft = null;
+    public CRServo one         = null;
+    public CRServo two         = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -52,6 +56,8 @@ public class SuperPushbot
         backRightMotor  = hwMap.dcMotor.get("back_right");
         pitchLeft = hwMap.dcMotor.get("bs_left");
         pitchLeft = hwMap.dcMotor.get("bs_right");
+        one = hwMap.crservo.get("one");
+        two = hwMap.crservo.get("two");
 
 
         // Set motor direction (Invert for AndyMark motors)
@@ -63,12 +69,14 @@ public class SuperPushbot
         pitchLeft.setDirection(DcMotor.Direction.REVERSE);
 
 
+        one.setPower(0.0);
+        //two.setPosition(0.5);
 
-
+/*
         // Set all motors to zero power
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
+        //frontLeftMotor.setPower(0);
+        //frontRightMotor.setPower(0);
+        //backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         pitchLeft.setPower(0);
         pitchRight.setPower(0);
@@ -89,7 +97,7 @@ public class SuperPushbot
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pitchLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pitchRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pitchRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);*/
     }
 
     /***
