@@ -99,8 +99,8 @@ public class SuperPushbotTeleopBoostBallshooter_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        //leftBoostMovement();
-        //activateBallshooter();
+        leftBoostMovement();
+        activateBallshooter();
         activateServos();
         // Send telemetry message to signify robot running;
 

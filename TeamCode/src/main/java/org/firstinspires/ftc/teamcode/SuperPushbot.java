@@ -49,7 +49,7 @@ public class SuperPushbot
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
+        // Define and Initialize Motors and Servos
         frontLeftMotor = hwMap.dcMotor.get("front_left");
         frontRightMotor  = hwMap.dcMotor.get("front_right");
         backLeftMotor  = hwMap.dcMotor.get("back_left");
@@ -69,10 +69,6 @@ public class SuperPushbot
         pitchLeft.setDirection(DcMotor.Direction.REVERSE);
 
 
-        one.setPower(0.0);
-        //two.setPosition(0.5);
-
-/*
         // Set all motors to zero power
         //frontLeftMotor.setPower(0);
         //frontRightMotor.setPower(0);
@@ -80,6 +76,10 @@ public class SuperPushbot
         backRightMotor.setPower(0);
         pitchLeft.setPower(0);
         pitchRight.setPower(0);
+
+        //Set all servos to zero power
+        one.setPower(0.0);
+        two.setPower(0.0);
 
         // Set braking behavior
         pitchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -97,7 +97,7 @@ public class SuperPushbot
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pitchLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pitchRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);*/
+        pitchRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /***
