@@ -61,10 +61,10 @@ public class SuperPushbot
 
 
         // Set motor direction (Invert for AndyMark motors)
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
         pitchLeft.setDirection(DcMotor.Direction.FORWARD);
         pitchLeft.setDirection(DcMotor.Direction.REVERSE);
 
