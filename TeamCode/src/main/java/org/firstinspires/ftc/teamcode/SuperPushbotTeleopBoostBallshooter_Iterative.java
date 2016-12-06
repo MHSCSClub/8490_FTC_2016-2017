@@ -101,28 +101,14 @@ public class SuperPushbotTeleopBoostBallshooter_Iterative extends OpMode{
     public void loop() {
         leftBoostMovement();
         activateBallshooter();
-        activateServos();
         // Send telemetry message to signify robot running;
 
         updateTelemetry(telemetry);
     }
 
-    private void activateServos(){
-        if(gamepad1.a){
-            robot.one.setPower(1.0);
-        } else if(gamepad1.b) {
-            robot.one.setPower(0.5);
-        } else if(gamepad1.x){
-            robot.one.setPower(-1);
-        } else {
-            robot.one.setPower(0);
-        }
-    }
-
     private void activateBallshooter(){
         float power = gamepad1.left_bumper ? BALLSHOOTER_POWER : 0;
-        robot.pitchRight.setPower(power);
-        robot.pitchLeft.setPower(power);
+        //TODO: Set power to power here
         telemetry.addData("ballshooter", "%.2f", power);
     }
 

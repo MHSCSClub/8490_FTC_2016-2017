@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,10 +31,6 @@ public class SuperPushbot
     public DcMotor  frontRightMotor  = null;
     public DcMotor backLeftMotor = null;
     public DcMotor  backRightMotor  = null;
-    public DcMotor pitchRight = null;
-    public DcMotor pitchLeft = null;
-    public CRServo one         = null;
-    public CRServo two         = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -54,36 +51,21 @@ public class SuperPushbot
         frontRightMotor  = hwMap.dcMotor.get("front_right");
         backLeftMotor  = hwMap.dcMotor.get("back_left");
         backRightMotor  = hwMap.dcMotor.get("back_right");
-        pitchLeft = hwMap.dcMotor.get("bs_left");
-        pitchLeft = hwMap.dcMotor.get("bs_right");
-        one = hwMap.crservo.get("one");
-        two = hwMap.crservo.get("two");
 
-
-        // Set motor direction (Invert for AndyMark motors)
-        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        pitchLeft.setDirection(DcMotor.Direction.FORWARD);
-        pitchLeft.setDirection(DcMotor.Direction.REVERSE);
+        // Set motor direction (Inverted for AndyMark motors (Invert these for Pitsco/Tetrix))
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Set all motors to zero power
-        //frontLeftMotor.setPower(0);
-        //frontRightMotor.setPower(0);
-        //backLeftMotor.setPower(0);
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-        pitchLeft.setPower(0);
-        pitchRight.setPower(0);
-
-        //Set all servos to zero power
-        one.setPower(0.0);
-        two.setPower(0.0);
 
         // Set braking behavior
-        pitchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        pitchRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -92,12 +74,10 @@ public class SuperPushbot
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pitchLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pitchRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /***
