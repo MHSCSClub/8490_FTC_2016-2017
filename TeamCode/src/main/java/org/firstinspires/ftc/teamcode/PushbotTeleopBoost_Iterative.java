@@ -97,13 +97,58 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
     @Override
     public void loop() {
         leftBoostMovement();
-        // Send telemetry message to signify robot running;
+        pickup();
+        popper();
 
+        // Send telemetry message to signify robot running;
         updateTelemetry(telemetry);
     }
 
+    private void popper(){
+
+            if (gamepad2.x) {
+                if(!robot.popper.getMode().equals(DcMotor.RunMode.RUN_USING_ENCODER)) {
+                    robot.popper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
+                robot.popper.setPower(-scaleInput(gamepad2.left_stick_y));
+            } else {
+                if(robot.popper.getMode().equals(DcMotor.RunMode.RUN_USING_ENCODER)){
+                    robot.popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition());
+                }
+                if(gamepad2.y){
+                    robot.popper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    robot.popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition());
+                    robot.popper.setPower(0);
+                }
+                boolean motorStopped = robot.popper.getTargetPosition() >= robot.popper.getCurrentPosition() - 1
+                        && robot.popper.getTargetPosition() <= robot.popper.getTargetPosition() + 1;
+
+                if(gamepad2.right_bumper && motorStopped){
+                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - Pushbot.POPPER_REVOLUTION);
+                    robot.popper.setPower(-1);
+                } else if(motorStopped){
+                    robot.popper.setPower(0);
+                }
+            }
 
 
+        telemetry.addData("Popper", "%.2f", (float)robot.popper.getCurrentPosition());
+    }
+
+    private void pickup(){
+        double power;
+        if(gamepad2.a){
+            power = 1;
+        } else if(gamepad2.b){
+            power = -1;
+        } else {
+            power = 0;
+        }
+        robot.pickup.setPower(power);
+        telemetry.addData("pickup",  "%.2f", power);
+    }
 
     /**
      * Jack and Yi's proprietary movement method (modified for the new robot)

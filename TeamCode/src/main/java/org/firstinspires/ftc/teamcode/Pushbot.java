@@ -22,11 +22,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Pushbot
 {
+    public static final int POPPER_REVOLUTION = 1680*3;
     /* Public OpMode members. */
     public DcMotor frontLeftMotor = null;
     public DcMotor  frontRightMotor  = null;
     public DcMotor backLeftMotor = null;
     public DcMotor  backRightMotor  = null;
+    public DcMotor popper = null;
+    public DcMotor pickup = null;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -46,26 +49,33 @@ public class Pushbot
         frontRightMotor  = hwMap.dcMotor.get("front_right");
         backLeftMotor  = hwMap.dcMotor.get("back_left");
         backRightMotor  = hwMap.dcMotor.get("back_right");
+        pickup  = hwMap.dcMotor.get("pickup");
+        popper  = hwMap.dcMotor.get("popper");
 
-        // Set motor direction (Inverted for AndyMark motors (Invert these for Pitsco/Tetrix))
+        // Set motor direction (Inverted for AndyMark motors)
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
-
+        popper.setDirection(DcMotor.Direction.FORWARD);
+        // Set motor direction (Normal for Tetrix/Pitsco motors)
+        pickup.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        pickup.setPower(0);
+        popper.setPower(0);
 
         // Set braking behavior
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        pickup.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        popper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -73,6 +83,11 @@ public class Pushbot
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pickup.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        popper.setTargetPosition(0);
     }
 
     /***
