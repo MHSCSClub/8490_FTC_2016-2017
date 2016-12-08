@@ -33,11 +33,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -60,11 +57,11 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SuperPushbot: Auto Drive By Time (Example)", group="SuperPushbot")
-public class SuperPushbotAutoDriveByTime_Linear extends LinearOpMode {
+@Autonomous(name="Pushbot: Auto Drive By Time (Example)", group="Pushbot")
+public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
     //EXAMPLE
     /* Declare OpMode members. */
-    SuperPushbot         robot   = new SuperPushbot();   // Use a Pushbot's hardware
+    Pushbot         robot   = new Pushbot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
 
