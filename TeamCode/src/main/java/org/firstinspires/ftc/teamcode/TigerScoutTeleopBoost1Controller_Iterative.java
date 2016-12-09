@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.util.Range;
 public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
 
     boolean last_lbump_state = false;
-    boolean flipper_state = false;
+    boolean flipper_state = true;
 
     //Constants
 
