@@ -31,6 +31,7 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,8 +41,8 @@ import com.qualcomm.robotcore.util.Range;
  * This file provides basic Telop driving for Group 1's robot.
  * The code is structured as an Iterative OpMode
  *
- * This OpMode uses the common HardwarePushbot hardware class to define the devices on the robot.
- * All device access is managed through the org.firstinspires.ftc.teamcode.HardwarePushbot class.
+ * This OpMode uses the common HardwareTigerScout hardware class to define the devices on the robot.
+ * All device access is managed through the org.firstinspires.ftc.teamcode.HardwareTigerScout class.
  *
  * This particular OpMode executes a basic Tank Drive Teleop for Group 1's robot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
@@ -50,14 +51,16 @@ import com.qualcomm.robotcore.util.Range;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
-@TeleOp(name="HardwarePushbot: Teleop (Jack and Yi's Boost)", group="HardwarePushbot")
-public class PushbotTeleopBoost_Iterative extends OpMode{
+@Disabled
+@TeleOp(name="TigerScout: Teleop Boost (Jack and Yi's Boost)", group="Tiger Scout")
+public class TigerScoutTeleopBoost_Iterative extends OpMode{
+    boolean last_lbump_state = false;
+    boolean flipper_state = false;
 
     //Constants
 
     /* Declare OpMode members. */
-    HardwarePushbot robot = new HardwarePushbot();
+    HardwareTigerScout robot = new HardwareTigerScout();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -98,9 +101,20 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
         leftBoostMovement();
         pickup();
         popper();
+        flipper();
 
         // Send telemetry message to signify robot running;
         updateTelemetry(telemetry);
+    }
+
+    private void flipper(){
+        if(gamepad1.left_bumper != last_lbump_state){
+            last_lbump_state = gamepad1.left_bumper;
+            if (gamepad1.left_bumper){
+                flipper_state = !flipper_state;
+            }
+        }
+        robot.flipper.setPosition(flipper_state ? 0 : 1);
     }
 
     private void popper(){
@@ -125,7 +139,7 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
                         && robot.popper.getTargetPosition() <= robot.popper.getTargetPosition() + 1;
 
                 if(gamepad2.right_bumper && motorStopped){
-                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - HardwarePushbot.POPPER_CPR);
+                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - HardwareTigerScout.POPPER_CPR);
                     robot.popper.setPower(-1);
                 } else if(motorStopped){
                     robot.popper.setPower(0);

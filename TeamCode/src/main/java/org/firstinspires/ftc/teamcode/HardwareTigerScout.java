@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -20,10 +21,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:   Back right back drive motor:    "back_right"
  * Motor channel:   Ball pickup motor:              "pickup"
  * Motor channel:   Ball popper motor:              "popper"
+ * Servo channel:   Front flipper for beacon:       "flipper"
  * Assumes 4 inch stealth wheels
  */
 
-public class HardwarePushbot
+public class HardwareTigerScout
 {
     //Robot parameters
     public static final int WHEEL_SIZE = 4;
@@ -37,12 +39,13 @@ public class HardwarePushbot
     public DcMotor  backRightMotor  = null;
     public DcMotor popper = null;
     public DcMotor pickup = null;
+    public Servo flipper = null;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushbot(){
+    public HardwareTigerScout(){
 
     }
 
@@ -51,13 +54,14 @@ public class HardwarePushbot
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
+        // Define and Initialize Motors and Servos
         frontLeftMotor = hwMap.dcMotor.get("front_left");
         frontRightMotor  = hwMap.dcMotor.get("front_right");
         backLeftMotor  = hwMap.dcMotor.get("back_left");
         backRightMotor  = hwMap.dcMotor.get("back_right");
         pickup  = hwMap.dcMotor.get("pickup");
         popper  = hwMap.dcMotor.get("popper");
+        flipper = hwMap.servo.get("flipper");
 
         // Set motor direction (Inverted for AndyMark motors)
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -94,9 +98,16 @@ public class HardwarePushbot
         pickup.setPower(0);
         popper.setPower(0);
 
+        // Set max speed for encoded motors
+        backLeftMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
+        frontLeftMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
+        backRightMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
+        frontRightMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
+        popper.setMaxSpeed(Motors.ANDYMARK_60_CPR);
+
         //Set Run_TO_POSITION Motors to go nowhere
         popper.setTargetPosition(popper.getCurrentPosition());
-
+        flipper.setPosition(1);
     }
 
     /***

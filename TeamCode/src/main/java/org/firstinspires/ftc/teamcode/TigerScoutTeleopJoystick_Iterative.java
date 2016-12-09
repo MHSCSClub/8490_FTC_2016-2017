@@ -31,6 +31,7 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,8 +41,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * This file provides basic Telop driving for Group 2's robot.
  * The code is structured as an Iterative OpMode
  *
- * This OpMode uses the common HardwarePushbot hardware class to define the devices on the robot.
- * All device access is managed through the org.firstinspires.ftc.teamcode.HardwarePushbot class.
+ * This OpMode uses the common HardwareTigerScout hardware class to define the devices on the robot.
+ * All device access is managed through the org.firstinspires.ftc.teamcode.HardwareTigerScout class.
  *
  * This particular OpMode executes a basic Tank Drive Teleop for Group 2's robot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
@@ -50,12 +51,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name="HardwarePushbot: Joystick", group="HardwarePushbot")
-public class PushbotTeleopJoystick_Iterative extends OpMode{
+@Disabled
+@TeleOp(name="TigerScout: Joystick", group="TigerScout")
+public class TigerScoutTeleopJoystick_Iterative extends OpMode{
 
 
     /* Declare OpMode members. */
-    HardwarePushbot robot = new HardwarePushbot();
+    HardwareTigerScout robot = new HardwareTigerScout();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -114,7 +116,7 @@ public class PushbotTeleopJoystick_Iterative extends OpMode{
             if(!robot.popper.getMode().equals(DcMotor.RunMode.RUN_USING_ENCODER)) {
                 robot.popper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            robot.popper.setPower((gamepad2.left_stick_y));
+            robot.popper.setPower(-(gamepad2.left_stick_y));
         } else {
             if(robot.popper.getMode().equals(DcMotor.RunMode.RUN_USING_ENCODER)){
                 robot.popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -130,7 +132,7 @@ public class PushbotTeleopJoystick_Iterative extends OpMode{
                     && robot.popper.getTargetPosition() <= robot.popper.getTargetPosition() + 1;
 
             if(gamepad2.right_bumper && motorStopped){
-                robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - HardwarePushbot.POPPER_CPR);
+                robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - HardwareTigerScout.POPPER_CPR);
                 robot.popper.setPower(-1);
             } else if(motorStopped){
                 robot.popper.setPower(0);
