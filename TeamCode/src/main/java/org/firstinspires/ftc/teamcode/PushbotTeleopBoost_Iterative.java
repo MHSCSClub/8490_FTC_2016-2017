@@ -31,7 +31,6 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -41,8 +40,8 @@ import com.qualcomm.robotcore.util.Range;
  * This file provides basic Telop driving for Group 1's robot.
  * The code is structured as an Iterative OpMode
  *
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
- * All device access is managed through the org.firstinspires.ftc.teamcode.Pushbot class.
+ * This OpMode uses the common HardwarePushbot hardware class to define the devices on the robot.
+ * All device access is managed through the org.firstinspires.ftc.teamcode.HardwarePushbot class.
  *
  * This particular OpMode executes a basic Tank Drive Teleop for Group 1's robot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively.
@@ -52,13 +51,13 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pushbot: Teleop (Jack and Yi's Boost)", group="Pushbot")
+@TeleOp(name="HardwarePushbot: Teleop (Jack and Yi's Boost)", group="HardwarePushbot")
 public class PushbotTeleopBoost_Iterative extends OpMode{
 
     //Constants
 
     /* Declare OpMode members. */
-    Pushbot robot = new Pushbot();
+    HardwarePushbot robot = new HardwarePushbot();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -126,7 +125,7 @@ public class PushbotTeleopBoost_Iterative extends OpMode{
                         && robot.popper.getTargetPosition() <= robot.popper.getTargetPosition() + 1;
 
                 if(gamepad2.right_bumper && motorStopped){
-                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - Pushbot.POPPER_REVOLUTION);
+                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - HardwarePushbot.POPPER_CPR);
                     robot.popper.setPower(-1);
                 } else if(motorStopped){
                     robot.popper.setPower(0);

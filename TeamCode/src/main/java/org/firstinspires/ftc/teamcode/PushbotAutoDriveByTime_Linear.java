@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file illustrates the concept of driving a path based on time.
- * It uses the common Pushbot hardware class to define the drive on the robot.
+ * It uses the common HardwarePushbot hardware class to define the drive on the robot.
  * The code is structured as a LinearOpMode
  *
  * The code assumes that you do NOT have encoders on the wheels,
@@ -57,11 +57,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Time (Example)", group="Pushbot")
+@Autonomous(name="HardwarePushbot: Auto Drive By Time (Example)", group="HardwarePushbot")
 public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
     //EXAMPLE
     /* Declare OpMode members. */
-    Pushbot         robot   = new Pushbot();   // Use a Pushbot's hardware
+    HardwarePushbot robot   = new HardwarePushbot();   // Use a HardwarePushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -87,10 +87,10 @@ public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        robot.frontLeftMotor.setPower(FORWARD_SPEED);
-        robot.frontRightMotor.setPower(FORWARD_SPEED);
-        robot.backLeftMotor.setPower(FORWARD_SPEED);
-        robot.backRightMotor.setPower(FORWARD_SPEED);
+        robot.frontLeftMotor.setPower(-FORWARD_SPEED);
+        robot.frontRightMotor.setPower(-FORWARD_SPEED);
+        robot.backLeftMotor.setPower(-FORWARD_SPEED);
+        robot.backRightMotor.setPower(-FORWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
@@ -98,10 +98,10 @@ public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
         }
 
         // Step 2:  Spin right for 1.3 seconds
-        robot.frontLeftMotor.setPower(TURN_SPEED);
-        robot.frontRightMotor.setPower(-TURN_SPEED);
-        robot.backLeftMotor.setPower(TURN_SPEED);
-        robot.backRightMotor.setPower(-TURN_SPEED);
+        robot.frontLeftMotor.setPower(-TURN_SPEED);
+        robot.frontRightMotor.setPower(TURN_SPEED);
+        robot.backLeftMotor.setPower(-TURN_SPEED);
+        robot.backRightMotor.setPower(TURN_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.3)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -109,10 +109,10 @@ public class PushbotAutoDriveByTime_Linear extends LinearOpMode {
         }
 
         // Step 3:  Drive Backwards for 1 Second
-        robot.frontLeftMotor.setPower(-FORWARD_SPEED);
-        robot.frontRightMotor.setPower(-FORWARD_SPEED);
-        robot.backLeftMotor.setPower(-FORWARD_SPEED);
-        robot.backRightMotor.setPower(-FORWARD_SPEED);
+        robot.frontLeftMotor.setPower(FORWARD_SPEED);
+        robot.frontRightMotor.setPower(FORWARD_SPEED);
+        robot.backLeftMotor.setPower(FORWARD_SPEED);
+        robot.backRightMotor.setPower(FORWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());

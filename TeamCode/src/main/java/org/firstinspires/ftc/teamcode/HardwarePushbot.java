@@ -18,11 +18,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:   Front right drive motor:        "front_right"
  * Motor channel:   Back left front drive motor:    "back_left"
  * Motor channel:   Back right back drive motor:    "back_right"
+ * Motor channel:   Ball pickup motor:              "pickup"
+ * Motor channel:   Ball popper motor:              "popper"
+ * Assumes 4 inch stealth wheels
  */
 
-public class Pushbot
+public class HardwarePushbot
 {
-    public static final int POPPER_REVOLUTION = 1680*3;
+    //Robot parameters
+    public static final int WHEEL_SIZE = 4;
+    public static final int POPPER_CPR = Motors.ANDYMARK_60_CPR*3;
+
+
     /* Public OpMode members. */
     public DcMotor frontLeftMotor = null;
     public DcMotor  frontRightMotor  = null;
@@ -35,7 +42,7 @@ public class Pushbot
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Pushbot(){
+    public HardwarePushbot(){
 
     }
 
@@ -58,16 +65,9 @@ public class Pushbot
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         popper.setDirection(DcMotor.Direction.FORWARD);
+
         // Set motor direction (Normal for Tetrix/Pitsco motors)
         pickup.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        // Set all motors to zero power
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
-        pickup.setPower(0);
-        popper.setPower(0);
 
         // Set braking behavior
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -86,8 +86,17 @@ public class Pushbot
         pickup.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Set all motors to zero power
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+        pickup.setPower(0);
+        popper.setPower(0);
 
-        popper.setTargetPosition(0);
+        //Set Run_TO_POSITION Motors to go nowhere
+        popper.setTargetPosition(popper.getCurrentPosition());
+
     }
 
     /***
