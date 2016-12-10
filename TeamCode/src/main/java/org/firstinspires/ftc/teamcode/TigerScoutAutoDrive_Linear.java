@@ -67,8 +67,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TigerScout: Auto Drive By Encoder", group="TigerScout")
-public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
+@Autonomous(name="TigerScout: Auto Drive", group="TigerScout")
+public class TigerScoutAutoDrive_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();
@@ -105,7 +105,7 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        robot.flipper.setPosition(0);
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                           robot.frontLeftMotor.getCurrentPosition(),
@@ -114,9 +114,6 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        if(opModeIsActive()) {
-            //popper();
-        }
         sleep(12 * 1000);
 
 
@@ -124,9 +121,10 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  -5.5,  -5.5, 2);
         popper(3);
-        encoderDrive(DRIVE_SPEED,  -46,  -46, 8.0);
+        pickup(1.3);
+        popper(3);
+        encoderDrive(DRIVE_SPEED,  -67,  -67, 8.0);
 
         sleep(1000);     // pause for servos to move
 
@@ -220,5 +218,17 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
             telemetry.update();
             sleep(50);
         }
+    }
+    private void pickup(double timeoutS){
+        runtime.reset();
+
+        while(opModeIsActive() && runtime.seconds() < timeoutS) {
+            double power = 0.6;
+            robot.pickup.setPower(power);
+            telemetry.addData("pickup", "%.2f", power);
+        }
+        double power = 0;
+        robot.pickup.setPower(power);
+        telemetry.addData("pickup", "%.2f", power);
     }
 }

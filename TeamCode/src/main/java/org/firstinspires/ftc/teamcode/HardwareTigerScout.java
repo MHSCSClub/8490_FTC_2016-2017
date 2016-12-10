@@ -107,7 +107,7 @@ public class HardwareTigerScout
 
         //Set Run_TO_POSITION Motors to go nowhere
         popper.setTargetPosition(popper.getCurrentPosition());
-        flipper.setPosition(1);
+        flipper.setPosition(0);
     }
 
     /***
