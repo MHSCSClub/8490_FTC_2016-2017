@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TigerScout: Teleop Boost - 1 Controller(Jack and Yi's Boost)", group="Tiger Scout")
+@TeleOp(name="TigerScout: Teleop Boost - Single Controller", group="Tiger Scout")
 public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
 
     boolean last_lbump_state = false;
