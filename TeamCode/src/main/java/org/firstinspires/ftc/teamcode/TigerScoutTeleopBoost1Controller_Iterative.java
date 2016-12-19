@@ -172,8 +172,8 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
 
 
         //Scale inputs
-        right = (float)scaleInput(right) / 2f;
-        left =  (float)scaleInput(left) / 2f;
+        right = -(float)scaleInput(right) / 2f;
+        left =  -(float)scaleInput(left) / 2f;
 
         float boost = gamepad1.left_trigger;
         boost = boost < .2f ? .2f : boost; //min value of boost is .2

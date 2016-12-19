@@ -86,6 +86,7 @@ import java.util.Scanner;
  * is explained below.
  */
 
+@Disabled
 @Autonomous(name="Concept: Vuforia Navigation", group ="Concept")
 public class TestVuforiaNavigation extends LinearOpMode {
 
@@ -124,7 +125,7 @@ public class TestVuforiaNavigation extends LinearOpMode {
          * {@link Parameters} instance with which you initialize Vuforia.
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
-        parameters.vuforiaLicenseKey = new Scanner(hardwareMap.appContext.getResources().openRawResource(R.raw.vuforia)).nextLine(); //Gets liscence key from
+        parameters.vuforiaLicenseKey = new Scanner(hardwareMap.appContext.getResources().openRawResource(R.raw.vuforia)).nextLine(); //Gets licence key from
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 

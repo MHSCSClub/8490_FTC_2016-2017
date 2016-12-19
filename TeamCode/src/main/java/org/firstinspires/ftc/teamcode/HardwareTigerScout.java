@@ -64,10 +64,10 @@ public class HardwareTigerScout
         flipper = hwMap.servo.get("flipper");
 
         // Set motor direction (Inverted for AndyMark motors)
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
         popper.setDirection(DcMotor.Direction.FORWARD);
 
         // Set motor direction (Normal for Tetrix/Pitsco motors)

@@ -24,8 +24,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: Auto Drive", group="TigerScout")
-public class TigerScoutAutoDrive_Linear extends LinearOpMode {
+@Autonomous(name="TigerScout: Auto Drive (Simple)", group="TigerScout")
+public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout      robot   = new HardwareTigerScout();
@@ -71,6 +71,8 @@ public class TigerScoutAutoDrive_Linear extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        telemetry.addData("Waiting", "Will wait 12 seconds!!");
+
         sleep(12 * 1000);
 
         // Step through each leg of the path,
