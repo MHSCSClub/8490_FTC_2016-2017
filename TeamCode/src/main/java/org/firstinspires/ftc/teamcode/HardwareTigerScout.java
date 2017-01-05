@@ -64,20 +64,26 @@ public class HardwareTigerScout
         flipper = hwMap.servo.get("flipper");
 
         // Set motor direction (Inverted for AndyMark motors)
-        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         popper.setDirection(DcMotor.Direction.FORWARD);
 
         // Set motor direction (Normal for Tetrix/Pitsco motors)
         pickup.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Set braking behavior
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+       /* frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
+
         pickup.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         popper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
