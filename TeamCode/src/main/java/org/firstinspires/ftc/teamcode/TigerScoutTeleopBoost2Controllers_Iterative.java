@@ -176,7 +176,7 @@ public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
         float right = gamepad1.left_stick_y - gamepad1.left_stick_x;
         float left = gamepad1.left_stick_y +  gamepad1.left_stick_x;
 
-
+        /* 1/5/2017: Disable Scaled Input
         //Scale inputs
         right = -(float)scaleInput(right) / 2f;
         left =  -(float)scaleInput(left) / 2f;
@@ -191,7 +191,7 @@ public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
 
         right = Range.clip(right, -1, 1);
         left = Range.clip(left, -1, 1);
-
+        */
         robot.frontRightMotor.setPower(left);
         robot.backRightMotor.setPower(left);
 
