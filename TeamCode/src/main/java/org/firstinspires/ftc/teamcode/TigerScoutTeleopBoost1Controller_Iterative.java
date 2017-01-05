@@ -75,6 +75,13 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //Send a message to signify init worked
         updateTelemetry(telemetry);
+
+
+        //Disable encoders for teleop, for more speed
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /*
@@ -170,7 +177,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
         float right = gamepad1.left_stick_y - gamepad1.left_stick_x;
         float left = gamepad1.left_stick_y +  gamepad1.left_stick_x;
 
-
+        /* 1/5/2017: Disable Boost
         //Scale inputs
         right = -(float)scaleInput(right) / 2f;
         left =  -(float)scaleInput(left) / 2f;
@@ -184,7 +191,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
         left *= boost;
 
         right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
+        left = Range.clip(left, -1, 1); */
 
         robot.frontRightMotor.setPower(left);
         robot.backRightMotor.setPower(left);

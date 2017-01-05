@@ -1,19 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  *
- * The code REQUIRES encoders
+ * The code REQUIRES encoders (TODO: And will require a gyro)
  *
  *   The desired program is:
  *   - Fire 1 ball
  *   - Load a second ball
  *   - Fire the other ball
  *   - Move forward 67 inches (onto the base, knocking off the cap ball)
+ *   TODO:
+ *   - Turn 45? degrees
+ *   - Move backward (x) inches (to beacon)
+ *   - Detect right? side of beacon color
+ *   - Press appropriate beacon button
+ *   - Move forward (x) inches (to park on central vortex again
  *
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  *  that performs the actual movement, based off of the AutoDriveByEncoder Example
@@ -22,11 +29,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
  *
  *  Separate methods control the popper (shooter) and the pickup mechanism
- *
- * This code is NOT an OpMode. The RED and BLUE variants extend this class for the relevant alliance.
  */
 
-public abstract class TigerScoutAutoDriveBeacon_Linear extends LinearOpMode {
+@Disabled
+@Autonomous(name="TigerScout: Auto Drive Beacon (Blue)", group="TigerScout")
+public class TigerScoutAutoDriveBeacon_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout      robot   = new HardwareTigerScout();
@@ -85,7 +92,7 @@ public abstract class TigerScoutAutoDriveBeacon_Linear extends LinearOpMode {
         pause();
         encoderDrive(DRIVE_SPEED, 67, 67, 8.0); //Drive to central vortex assembly
         pause();
-        encoderDrive(TURN_SPEED, -TURN_DIRECTION() * 12, TURN_DIRECTION() * 12, 4.0); //Turn 12 inches left.
+        //encoderDrive(TURN_SPEED, -TURN_DIRECTION() * 12, TURN_DIRECTION() * 12, 4.0); //Turn 12 inches left.
         pause();
         encoderDrive(DRIVE_SPEED, 60, 60, 7.5); //Drive to Beacon
         pause();
@@ -97,7 +104,7 @@ public abstract class TigerScoutAutoDriveBeacon_Linear extends LinearOpMode {
         telemetry.update();
     }
 
-    abstract int TURN_DIRECTION(); //Exists so that turn direction is defined by child classes
+    //abstract int TURN_DIRECTION(); //Exists so that turn direction is defined by child classes
 
     void pause(){
         if(PAUSE_AFTER_MOVE){
@@ -105,7 +112,9 @@ public abstract class TigerScoutAutoDriveBeacon_Linear extends LinearOpMode {
         }
     }
 
-    abstract void activateBeacon(double timeoutS);
+    public void activateBeacon(double timeoutS){
+
+    }
     /*
      *  Method to perform a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
@@ -192,6 +201,9 @@ public abstract class TigerScoutAutoDriveBeacon_Linear extends LinearOpMode {
             sleep(50);
         }
     }
+
+
+
     private void pickup(double timeoutS){
         runtime.reset();
         double power = 0.6;

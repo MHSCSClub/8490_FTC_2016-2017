@@ -74,6 +74,13 @@ public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //Send a message to signify init worked
         updateTelemetry(telemetry);
+
+
+        //Disable encoders for teleop, for more speed
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /*

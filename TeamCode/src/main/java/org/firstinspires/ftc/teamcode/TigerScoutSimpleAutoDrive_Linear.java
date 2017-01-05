@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,7 +25,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: Auto Drive (Simple)", group="TigerScout")
+@Deprecated
+@Autonomous(name="TigerScout: Auto Drive (Simple, Deprecated)", group="TigerScout")
 public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -38,6 +40,7 @@ public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
                                                       (WHEEL_DIAMETER_INCHES * Math.PI);
     static final double     DRIVE_SPEED             = 0.8;
     static final double     TURN_SPEED              = 0.5;
+
 
     @Override
     public void runOpMode() {
@@ -77,7 +80,7 @@ public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        popper(3); //Fjre 1 ball
+        popper(3); //Fire 1 ball
         pickup(1.3); //Load next ball
         popper(3); //Fire next ball
         encoderDrive(DRIVE_SPEED,  -67,  -67, 8.0); //Drive to central vortex assembly
