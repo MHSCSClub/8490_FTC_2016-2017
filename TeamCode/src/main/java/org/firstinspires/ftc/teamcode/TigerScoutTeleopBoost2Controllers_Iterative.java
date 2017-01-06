@@ -51,6 +51,9 @@ import com.qualcomm.robotcore.util.Range;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
+
+@Deprecated
+@Disabled
 @TeleOp(name="TigerScout: Teleop Boost - Dual Controller", group="Tiger Scout")
 public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
     boolean last_lbump_state = false;

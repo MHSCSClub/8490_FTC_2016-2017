@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.configuration.ModernRoboticsConstants;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -40,6 +45,11 @@ public class HardwareTigerScout
     public DcMotor popper = null;
     public DcMotor pickup = null;
     public Servo flipper = null;
+    public ModernRoboticsI2cColorSensor colorSensor = null;
+    public CRServo leftBeacon = null;
+    public CRServo rightBeacon = null;
+    public ModernRoboticsI2cGyro gyro = null;
+
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -62,6 +72,11 @@ public class HardwareTigerScout
         pickup  = hwMap.dcMotor.get("pickup");
         popper  = hwMap.dcMotor.get("popper");
         flipper = hwMap.servo.get("flipper");
+        colorSensor = (ModernRoboticsI2cColorSensor) hwMap.colorSensor.get("color");
+        gyro = (ModernRoboticsI2cGyro) hwMap.colorSensor.get("gyro");
+        leftBeacon = hwMap.crservo.get("leftbeacon");
+        rightBeacon = hwMap.crservo.get("rightbeacon");
+
 
         // Set motor direction (Inverted for AndyMark motors)
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -73,16 +88,11 @@ public class HardwareTigerScout
         // Set motor direction (Normal for Tetrix/Pitsco motors)
         pickup.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // Set braking behavior
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-       /* frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         pickup.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         popper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
