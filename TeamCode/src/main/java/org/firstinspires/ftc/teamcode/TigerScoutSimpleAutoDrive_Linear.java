@@ -73,9 +73,9 @@ public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        telemetry.addData("Waiting", "Will wait 12 seconds!!");
+        //telemetry.addData("Waiting", "Will wait 12 seconds!!");
 
-        sleep(12 * 1000);
+        //sleep(12 * 1000);
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
