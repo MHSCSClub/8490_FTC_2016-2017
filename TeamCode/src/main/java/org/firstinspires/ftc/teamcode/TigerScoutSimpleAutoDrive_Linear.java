@@ -25,8 +25,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Deprecated
-@Autonomous(name="TigerScout: Auto Drive (Simple, Deprecated)", group="TigerScout")
+@Autonomous(name="TigerScout: Auto Drive (Simple, Universal)", group="TigerScout")
 public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */

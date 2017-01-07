@@ -1,29 +1,59 @@
+/*
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted (subject to the limitations in the disclaimer below) provided that
+the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list
+of conditions and the following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright notice, this
+list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.
+
+Neither the name of Robert Atkinson nor the names of his contributors may be used to
+endorse or promote products derived from this software without specific prior
+written permission.
+
+NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESSFOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-
 /**
- * Autonomous for BLUE. For RED, we turn -123 degrees to align with beacon, and we look for red
- * instead of blue on the left beacon.
+ *
  * The code REQUIRES encoders, an MR Gyro, and an MR Color Sensor.
  *
  *   The desired program is:
  *   - Fire 1 ball
  *   - Load a second ball
  *   - Fire the other ball
- *   - Move forward 67.5 inches (onto the base, knocking off the cap ball)
- *   - Turn 123 degrees
- *   - Move backward 60 inches (to beacon)
- *   - Detect if left side is correct color
+ *   - Move forward 67 inches (onto the base, knocking off the cap ball)
+ *   TODO:
+ *   - Turn 45? degrees
+ *   - Move backward (x) inches (to beacon)
+ *   - Detect right? side of beacon color
  *   - Press appropriate beacon button
- *   - Move forward 60 inches (to park on central vortex again)
+ *   - Move forward (x) inches (to park on central vortex again
  *
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  *  that performs the actual movement, based off of the AutoDriveByEncoder Example
@@ -31,22 +61,12 @@ import com.qualcomm.robotcore.util.Range;
  *  There are other ways to perform encoder based moves, but this method is probably the simplest.
  *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
  *
- * The code also uses the gyroDrive, gyroTurn, and gyroHold methods, modified from the PushbotAutoDriveByGyro
- * example.
- *
- *  In order to calibrate the Gyro correctly, the robot must remain stationary during calibration.
- *  This is performed when the INIT button is pressed on the Driver Station.
- *  This code assumes that the robot is stationary when the INIT button is pressed.
- *  If this is not the case, then the INIT should be performed again.
- *
- *  Note: in this example, all angles are referenced to the initial coordinate frame set during the
- *  the Gyro Calibration process, or whenever the program issues a resetZAxisIntegrator() call on the Gyro.
- *
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: Auto Drive to Beacon BLUE", group="Tiger Scout")
-public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
+@Disabled
+@Autonomous(name="TigerScout: Auto Drive to Beacon BLUE (TEST)", group="Tiger Scout")
+public class TigerScoutAutoDriveBlueGyro_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
@@ -123,14 +143,14 @@ public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
         pickup(1.8); //Load next ball
         popper(3); //Fire next ball
 
-        encoderDrive(DRIVE_SPEED, -67.5, -67.5, 8);    // Drive FWD 67.5 inches
-        gyroTurn( TURN_SPEED, 123);         // Turn  CCW to 123 Degrees
-        gyroHold( TURN_SPEED, 123, 0.5);    // Hold 123 Deg heading for a 1/2 second
-        encoderDrive(DRIVE_SPEED,60, 60, 8);    // Drive REV 60 inches
+        gyroDrive(DRIVE_SPEED, -67.5, 0);    // Drive FWD 48 inches
+        gyroTurn( TURN_SPEED, 123);         // Turn  CCW to -45 Degrees
+        gyroHold( TURN_SPEED, 123, 0.5);    // Hold -45 Deg heading for a 1/2 second
+
+        gyroDrive(DRIVE_SPEED,60,123);    // Drive REV 48 inches
         //DO the beacons now
-        switch(beaconData(true)){  //Check if blue is on left
+        switch(beaconData(true)){
             case -1:
-                //Blue is on left. Poke it!
                 robot.leftBeacon.setPower(-1);
                 sleep(500);
                 robot.leftBeacon.setPower(1);
@@ -138,17 +158,16 @@ public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
                 robot.leftBeacon.setPower(0);
                 break;
             case 1:
-                //Blue is on right. Poke it!
-                robot.rightBeacon.setPower(1);
+                robot.leftBeacon.setPower(1);
                 sleep(500);
-                robot.rightBeacon.setPower(-1);
+                robot.leftBeacon.setPower(-1);
                 sleep(500);
-                robot.rightBeacon.setPower(0);
+                robot.leftBeacon.setPower(0);
                 break;
             default:
                 //ERROR! just return!
         };
-        encoderDrive(DRIVE_SPEED,-60, -60,8);    // Drive REV 60 inches, to center base
+        gyroDrive(DRIVE_SPEED,-60, 123);    // Drive REV 48 inches
 
 
 
@@ -177,7 +196,7 @@ public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
             telemetry.addData("Color", "Probably Blue");
             return lookForBlue ? 1 : -1;
         } else {
-            telemetry.addData("Color", "Unknown");
+            telemetry.addData("Color", "WTF we do not know!!!");
             return 0;
         }
     }
@@ -268,13 +287,9 @@ public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
 
                 // Display drive status for the driver.
                 telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
-                telemetry.addData("Target",  "%7d:%7d:%7d:%7d",      newFrontLeftTarget,
-                        newFrontRightTarget, newRearLeftTarget, newRearRightTarget);
-                telemetry.addData("Actual",  "%7d:%7d:%7d:%7d",
-                        robot.frontLeftMotor.getCurrentPosition(),
-                        robot.frontRightMotor.getCurrentPosition(),
-                        robot.backLeftMotor.getCurrentPosition(),
-                        robot.backRightMotor.getCurrentPosition());
+                telemetry.addData("Target",  "%7d:%7d:%7d:%7d",      newFrontLeftTarget,  newFrontRightTarget, newRearLeftTarget, newRearRightTarget);
+                telemetry.addData("Actual",  "%7d:%7d:%7d:%7d",      robot.frontLeftMotor.getCurrentPosition(),
+                                                             robot.frontRightMotor.getCurrentPosition(),robot.backLeftMotor.getCurrentPosition(),robot.backRightMotor.getCurrentPosition());
                 telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
                 telemetry.update();
             }
@@ -362,7 +377,7 @@ public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (Math.abs(error) <= HEADING_THRESHOLD) {
+        if (Math.abs(error) <= HEADING_THRESHOLD || 9999999 + 180-Math.abs(error) <= HEADING_THRESHOLD) {
             steer = 0.0;
             leftSpeed  = 0.0;
             rightSpeed = 0.0;

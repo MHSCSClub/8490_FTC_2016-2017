@@ -58,6 +58,8 @@ import com.qualcomm.robotcore.util.Range;
 public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
     boolean last_lbump_state = false;
     boolean flipper_state = true;
+    boolean boost_enabled;
+    boolean dpad_used;
 
     //Constants
 
@@ -172,38 +174,41 @@ public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
         telemetry.addData("pickup",  "%.2f", power);
     }
 
-    /**
-     * Jack and Yi's proprietary movement method (modified for the new robot)
-     */
     private void leftBoostMovement() {
         float right = gamepad1.left_stick_y - gamepad1.left_stick_x;
         float left = gamepad1.left_stick_y +  gamepad1.left_stick_x;
 
-        /* 1/5/2017: Disable Scaled Input
-        //Scale inputs
-        right = -(float)scaleInput(right) / 2f;
-        left =  -(float)scaleInput(left) / 2f;
+        right /=10f;
+        left /= 10f;
 
-        float boost = gamepad1.left_trigger;
-        boost = boost < .2f ? .2f : boost; //min value of boost is .2
-        boost = (float) scaleInput(boost) * 2f;
+        telemetry.addData("boost","%.2f",gamepad1.left_trigger);
+        telemetry.addData("boost-scaled","%.2f",(float)scaleInput(gamepad1.left_trigger));
+        if(gamepad1.left_trigger > 0.2){
+            if(!boost_enabled){
+                robot.frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                robot.backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            }
+            boost_enabled = true;
+            right *= 10f * (float)scaleInput(gamepad1.left_trigger);
+            left *= 10f * (float)scaleInput(gamepad1.left_trigger);
+            resetStartTime();
+        } else if (boost_enabled && getRuntime() > 2){
+            boost_enabled = false;
+            robot.frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot.frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot.backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            robot.backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
 
-        //add boost amount to vectors right and left
-        right *= boost;
-        left *= boost;
-
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
-        */
         robot.frontRightMotor.setPower(left);
         robot.backRightMotor.setPower(left);
-
         robot.frontLeftMotor.setPower(right);
         robot.backLeftMotor.setPower(right);
+
         telemetry.addData("left",  "%.2f", left);
         telemetry.addData("right", "%.2f", right);
-
-
     }
 
     /*
@@ -251,6 +256,33 @@ public class TigerScoutTeleopBoost2Controllers_Iterative extends OpMode{
         robot.backRightMotor.setPower(0);
         telemetry.addData("Say", "Stopped robot!");    //Send a message to signify run stopped
         updateTelemetry(telemetry);
+    }
+    private void dpad(){
+        if(gamepad1.dpad_up || gamepad1.dpad_down || dpad_used){
+            dpad_used = gamepad1.dpad_up || gamepad1.dpad_down;
+            double power = 0;
+            if(gamepad1.dpad_up){
+                power = -0.3;
+            } else if(gamepad1.dpad_down){
+                power = 0.3;
+            }
+            /*
+            if(power != 0){
+                robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            } else {
+                robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }*/
+            robot.frontRightMotor.setPower(power);
+            robot.backRightMotor.setPower(power);
+            robot.frontLeftMotor.setPower(power);
+            robot.backLeftMotor.setPower(power);
+        }
     }
 
 }

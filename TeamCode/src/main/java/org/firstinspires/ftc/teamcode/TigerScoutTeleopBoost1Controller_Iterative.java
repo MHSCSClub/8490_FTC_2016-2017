@@ -203,9 +203,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
         telemetry.addData("pickup",  "%.2f", power);
     }
 
-    /**
-     * Jack and Yi's proprietary movement method (modified for the new robot)
-     */
+
     private void leftBoostMovement() {
         float right = gamepad1.left_stick_y - gamepad1.left_stick_x;
         float left = gamepad1.left_stick_y +  gamepad1.left_stick_x;
