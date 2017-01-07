@@ -73,10 +73,11 @@ public class HardwareTigerScout
         popper  = hwMap.dcMotor.get("popper");
         flipper = hwMap.servo.get("flipper");
         colorSensor = (ModernRoboticsI2cColorSensor) hwMap.colorSensor.get("color");
-        gyro = (ModernRoboticsI2cGyro) hwMap.colorSensor.get("gyro");
+        gyro = (ModernRoboticsI2cGyro) hwMap.gyroSensor.get("gyro");
         leftBeacon = hwMap.crservo.get("leftbeacon");
         rightBeacon = hwMap.crservo.get("rightbeacon");
 
+        leftBeacon.setPower(1);
 
         // Set motor direction (Inverted for AndyMark motors)
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);

@@ -32,15 +32,11 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  *
@@ -67,8 +63,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: Auto Drive to Beacon BLUE", group="Tiger Scout")
-public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
+@Autonomous(name="TigerScout: Auto Drive to Beacon RED", group="Tiger Scout")
+public class TigerScoutAutoDriveRed_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
@@ -146,12 +142,12 @@ public class TigerScoutAutoDriveBlue_Linear extends LinearOpMode {
         popper(3); //Fire next ball
 
         encoderDrive(DRIVE_SPEED, -67.5, -67.5, 8);    // Drive FWD 48 inches
-        gyroTurn( TURN_SPEED, 123);         // Turn  CCW to -45 Degrees
-        gyroHold( TURN_SPEED, 123, 0.5);    // Hold -45 Deg heading for a 1/2 second
+        gyroTurn( TURN_SPEED, -123);         // Turn  CCW to -45 Degrees
+        gyroHold( TURN_SPEED, -123, 0.5);    // Hold -45 Deg heading for a 1/2 second
 
         encoderDrive(DRIVE_SPEED,60, 60, 8);    // Drive REV 48 inches
         //DO the beacons now
-        switch(beaconData(true)){
+        switch(beaconData(false)){
             case -1:
                 robot.leftBeacon.setPower(-1);
                 sleep(500);

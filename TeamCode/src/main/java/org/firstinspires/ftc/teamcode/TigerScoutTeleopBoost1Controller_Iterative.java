@@ -109,7 +109,9 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        leftBoostMovement();
+        if(!dpad_used) {
+            leftBoostMovement();
+        }
         pickup();
         popper();
         flipper();
@@ -123,10 +125,11 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
             dpad_used = gamepad1.dpad_up || gamepad1.dpad_down;
             double power = 0;
             if(gamepad1.dpad_up){
-                power = -1;
+                power = -0.3;
             } else if(gamepad1.dpad_down){
-                power = 1;
+                power = 0.3;
             }
+            /*
             if(power != 0){
                 robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -137,7 +140,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
                 robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 robot.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }
+            }*/
             robot.frontRightMotor.setPower(power);
             robot.backRightMotor.setPower(power);
             robot.frontLeftMotor.setPower(power);
