@@ -1,33 +1,3 @@
-/*
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted (subject to the limitations in the disclaimer below) provided that
-the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this list
-of conditions and the following disclaimer.
-
-Redistributions in binary form must reproduce the above copyright notice, this
-list of conditions and the following disclaimer in the documentation and/or
-other materials provided with the distribution.
-
-Neither the name of Robert Atkinson nor the names of his contributors may be used to
-endorse or promote products derived from this software without specific prior
-written permission.
-
-NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
-LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESSFOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
-TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
@@ -39,26 +9,37 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- *
+ * Autonomous for RED. For BLUE, we turn 123 degrees to align with beacon, and we look for red
+ * instead of blue on the left beacon.
  * The code REQUIRES encoders, an MR Gyro, and an MR Color Sensor.
  *
  *   The desired program is:
  *   - Fire 1 ball
  *   - Load a second ball
  *   - Fire the other ball
- *   - Move forward 67 inches (onto the base, knocking off the cap ball)
- *   TODO:
- *   - Turn 45? degrees
- *   - Move backward (x) inches (to beacon)
- *   - Detect right? side of beacon color
+ *   - Move forward 67.5 inches (onto the base, knocking off the cap ball)
+ *   - Turn -123 degrees
+ *   - Move backward 60 inches (to beacon)
+ *   - Detect if left side is correct color
  *   - Press appropriate beacon button
- *   - Move forward (x) inches (to park on central vortex again
+ *   - Move forward 60 inches (to park on central vortex again)
  *
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  *  that performs the actual movement, based off of the AutoDriveByEncoder Example
  *  This methods assumes that each movement is relative to the last stopping place.
  *  There are other ways to perform encoder based moves, but this method is probably the simplest.
  *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
+ *
+ * The code also uses the gyroDrive, gyroTurn, and gyroHold methods, modified from the PushbotAutoDriveByGyro
+ * example.
+ *
+ *  In order to calibrate the Gyro correctly, the robot must remain stationary during calibration.
+ *  This is performed when the INIT button is pressed on the Driver Station.
+ *  This code assumes that the robot is stationary when the INIT button is pressed.
+ *  If this is not the case, then the INIT should be performed again.
+ *
+ *  Note: in this example, all angles are referenced to the initial coordinate frame set during the
+ *  the Gyro Calibration process, or whenever the program issues a resetZAxisIntegrator() call on the Gyro.
  *
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
@@ -156,11 +137,11 @@ public class TigerScoutAutoDriveRed_Linear extends LinearOpMode {
                 robot.leftBeacon.setPower(0);
                 break;
             case 1:
-                robot.leftBeacon.setPower(1);
+                robot.rightBeacon.setPower(1);
                 sleep(500);
-                robot.leftBeacon.setPower(-1);
+                robot.rightBeacon.setPower(-1);
                 sleep(500);
-                robot.leftBeacon.setPower(0);
+                robot.rightBeacon.setPower(0);
                 break;
             default:
                 //ERROR! just return!

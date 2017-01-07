@@ -82,7 +82,7 @@ public class TigerScoutSimpleAutoDrive_Linear extends LinearOpMode {
         popper(3); //Fire 1 ball
         pickup(1.3); //Load next ball
         popper(3); //Fire next ball
-        encoderDrive(DRIVE_SPEED,  67,  67, 8.0); //Drive to central vortex assembly
+        encoderDrive(DRIVE_SPEED,  -67.5,  -67.5, 8.0); //Drive to central vortex assembly
 
         sleep(1000);
 
