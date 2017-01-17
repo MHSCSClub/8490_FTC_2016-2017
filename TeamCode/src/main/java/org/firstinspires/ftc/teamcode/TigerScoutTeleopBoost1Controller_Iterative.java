@@ -125,22 +125,11 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
             dpad_used = gamepad1.dpad_up || gamepad1.dpad_down;
             double power = 0;
             if(gamepad1.dpad_up){
-                power = -0.3;
+                power = -0.5;
             } else if(gamepad1.dpad_down){
-                power = 0.3;
+                power = 0.5;
             }
-            /*
-            if(power != 0){
-                robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            } else {
-                robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }*/
+
             robot.frontRightMotor.setPower(power);
             robot.backRightMotor.setPower(power);
             robot.frontLeftMotor.setPower(power);
@@ -165,9 +154,11 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
                 }
                 robot.popper.setPower(-scaleInput(gamepad1.right_stick_y));
             } else {
-                if(robot.popper.getMode().equals(DcMotor.RunMode.RUN_USING_ENCODER)){
+                if(robot.popper.getMode().equals(!DcMotor.RunMode.RUN_TO_POSITION)){
+                    robot.popper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.popper.setTargetPosition(robot.popper.getCurrentPosition());
+                    robot.popper.setPower(0);
                 }
                 if(gamepad1.y){
                     robot.popper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
