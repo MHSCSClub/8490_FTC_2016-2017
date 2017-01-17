@@ -45,7 +45,7 @@ import com.qualcomm.robotcore.util.Range;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: Auto Drive to Beacon BLUE", group="Tiger Scout")
+@Autonomous(name="TigerScout: Auto Drive to Beacon BLUE -B", group="Tiger Scout")
 public class BlueAutonomousPaulyP123 extends LinearOpMode {
 
     /* Declare OpMode members. */

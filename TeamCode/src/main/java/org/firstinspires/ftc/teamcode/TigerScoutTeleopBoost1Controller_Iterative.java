@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.util.Range;
 public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
 
     private boolean last_lbump_state = false;
-    private boolean flipper_state = true;
+    private int flipper_state = 0;
     private boolean dpad_used = false;
     private boolean boost_enabled;
 
@@ -141,10 +141,25 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
         if(gamepad1.left_bumper != last_lbump_state){
             last_lbump_state = gamepad1.left_bumper;
             if (gamepad1.left_bumper){
-                flipper_state = !flipper_state;
+                flipper_state++;
+                flipper_state %= 3;
             }
         }
-        robot.flipper.setPosition(flipper_state ? 0 : 1);
+        double flipperPos;
+        switch(flipper_state){
+            case 0:
+                flipperPos = 0;
+                break;
+            case 1:
+                flipperPos = 0.5;
+                break;
+            case 2:
+                flipperPos = 1;
+                break;
+            default:
+                flipperPos = -1;
+        }
+        robot.flipper.setPosition(flipperPos);
     }
 
     private void popper(){
@@ -154,7 +169,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
                 }
                 robot.popper.setPower(-scaleInput(gamepad1.right_stick_y));
             } else {
-                if(robot.popper.getMode().equals(!DcMotor.RunMode.RUN_TO_POSITION)){
+                if(!robot.popper.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)){
                     robot.popper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     robot.popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.popper.setTargetPosition(robot.popper.getCurrentPosition());
