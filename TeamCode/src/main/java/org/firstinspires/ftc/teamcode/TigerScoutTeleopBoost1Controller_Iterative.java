@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.util.Range;
 public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
 
     private boolean last_lbump_state = false;
-    private int flipper_state = 0;
+    private int flipper_state = 2;
     private boolean dpad_used = false;
     private boolean boost_enabled;
 
@@ -160,6 +160,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
                 flipperPos = -1;
         }
         robot.flipper.setPosition(flipperPos);
+        telemetry.addData("flipper","%2f",(float)flipper_state);
     }
 
     private void popper(){

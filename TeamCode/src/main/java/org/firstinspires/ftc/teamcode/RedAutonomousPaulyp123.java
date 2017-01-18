@@ -45,8 +45,8 @@ import com.qualcomm.robotcore.util.Range;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: PaulyP123 BLUE AUTO", group="Tiger Scout")
-public class BlueAutonomousPaulyP123 extends LinearOpMode {
+@Autonomous(name="TigerScout: PaulyP123 RED AUTO", group="Tiger Scout")
+public class RedAutonomousPaulyp123 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
