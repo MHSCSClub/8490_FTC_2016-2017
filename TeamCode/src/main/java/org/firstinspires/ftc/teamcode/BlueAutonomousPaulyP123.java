@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 /**
- * Autonomous for BLUE. For RED, we turn -123 degrees to align with beacon, and we look for red
+ * Autonomous for BLUE. For RED, we turn 57 degrees to align with beacon, and we look for red
  * instead of blue on the left beacon.
  * The code REQUIRES encoders, an MR Gyro, and an MR Color Sensor.
  *
@@ -19,11 +19,11 @@ import com.qualcomm.robotcore.util.Range;
  *   - Load a second ball
  *   - Fire the other ball
  *   - Move forward 67.5 inches (onto the base, knocking off the cap ball)
- *   - Turn 123 degrees
- *   - Move backward 60 inches (to beacon)
+ *   - Turn -57 degrees
+ *   - Move forward 60 inches (to beacon)
  *   - Detect if left side is correct color
  *   - Press appropriate beacon button
- *   - Move forward 60 inches (to park on central vortex again)
+ *   - Move backward 60 inches (to park on central vortex again)
  *
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  *  that performs the actual movement, based off of the AutoDriveByEncoder Example
@@ -45,7 +45,7 @@ import com.qualcomm.robotcore.util.Range;
  *  Separate methods control the popper (shooter) and the pickup mechanism
  */
 
-@Autonomous(name="TigerScout: Auto Drive to Beacon BLUE -B", group="Tiger Scout")
+@Autonomous(name="TigerScout: PaulyP123 BLUE AUTO", group="Tiger Scout")
 public class BlueAutonomousPaulyP123 extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -118,37 +118,29 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turn
 
-
+        flipper(0);
         popper(3); //Fire 1 ball
         pickup(1.8); //Load next ball (Consider decreasing this value after zip ties implemented
         popper(3); //Fire next ball
+        flipper(1);
 
         encoderDrive(DRIVE_SPEED, -67.5, -67.5, 8);    // Drive FWD 67.5 inches
-        gyroTurn( TURN_SPEED, 123);         // Turn  CCW to 123 Degrees
-        gyroHold( TURN_SPEED, 123, 0.5);    // Hold 123 Deg heading for a 1/2 second
-        encoderDrive(DRIVE_SPEED,60, 60, 8);    // Drive REV 60 inches
+        gyroTurn( TURN_SPEED, -57);         // Turn  CCW to 123 Degrees
+        gyroHold( TURN_SPEED, -57, 0.5);    // Hold 123 Deg heading for a 1/2 second
+        encoderDrive(DRIVE_SPEED,-60, -60, 8);    // Drive Forward 60 inches
         //DO the beacons now
         switch(beaconData(true)){  //Check if blue is on left
             case -1:
                 //Blue is on left. Poke it!
-                robot.leftBeacon.setPower(-1);
-                sleep(500);
-                robot.leftBeacon.setPower(1);
-                sleep(500);
-                robot.leftBeacon.setPower(0);
+                flipper(0);
                 break;
             case 1:
-                //Blue is on right. Poke it!
-                robot.rightBeacon.setPower(1);
-                sleep(500);
-                robot.rightBeacon.setPower(-1);
-                sleep(500);
-                robot.rightBeacon.setPower(0);
+                flipper(2);
                 break;
             default:
                 //ERROR! just return!
         };
-        encoderDrive(DRIVE_SPEED,-60, -60, 8);    // Drive REV 60 inches, to center base
+        encoderDrive(DRIVE_SPEED, 60, 60, 8);    // Drive REV 60 inches, to center base
 
 
 
@@ -168,16 +160,19 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
         float hue = hsvValues[0];
         telemetry.addData("Hue ", hue);
         boolean isRed;
-        if(hue < 10){
+        if(hue < 10 || (hue > 310 && hue < 350)){
             //RED
             telemetry.addData("Color", "Probably red");
+            telemetry.update();
             return lookForBlue ? -1 : 1;
         } else if(hue > 200 && hue < 250){
             //BLUE
             telemetry.addData("Color", "Probably Blue");
+            telemetry.update();
             return lookForBlue ? 1 : -1;
         } else {
             telemetry.addData("Color", "Unknown");
+            telemetry.update();
             return 0;
         }
     }
@@ -511,5 +506,28 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
 
             //  sleep(250);   // optional pause after each move
         }
+    }
+
+
+    /**
+     *
+     * @param flipper_state 0 is left, 1 is mid, 2 is right
+     */
+    private void flipper(int flipper_state){
+        double flipperPos;
+        switch(flipper_state){
+            case 0:
+                flipperPos = 0;
+                break;
+            case 1:
+                flipperPos = 0.5;
+                break;
+            case 2:
+                flipperPos = 1;
+                break;
+            default:
+                flipperPos = -1;
+        }
+        robot.flipper.setPosition(flipperPos);
     }
 }
