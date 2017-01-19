@@ -124,23 +124,31 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
         popper(3); //Fire next ball
         flipper(1);
 
-        encoderDrive(DRIVE_SPEED, -67.5, -67.5, 8);    // Drive FWD 67.5 inches
-        gyroTurn( TURN_SPEED, -57);         // Turn  CW to 57 Degrees
-        gyroHold( TURN_SPEED, -57, 0.5);    // Hold 57 Deg heading for a 1/2 second
-        encoderDrive(DRIVE_SPEED,-60, -60, 8);    // Drive Forward 60 inches
+        encoderDrive(DRIVE_SPEED, -66, -66, 8);    // Drive FWD 67.5 inches
+        gyroTurn( TURN_SPEED, -47);         // Turn  CW to 57 Degrees
+        gyroHold( TURN_SPEED, -47, 0.5);    // Hold 57 Deg heading for a 1/2 second
+        encoderDrive(DRIVE_SPEED,-46, -46, 8);    // Drive Forward 60 inches
+
         //DO the beacons now
         switch(beaconData(true)){  //Check if blue is on left
             case -1:
                 //Blue is on left. Poke it!
                 flipper(0);
+                encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
+
+                encoderDrive(DRIVE_SPEED, 52, 52, 8);
                 break;
             case 1:
                 flipper(2);
+                encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
+
+                encoderDrive(DRIVE_SPEED, 52, 52, 8);
                 break;
             default:
-                //ERROR! just return!
+                encoderDrive(DRIVE_SPEED, 59, 59, 8);
         };
-        encoderDrive(DRIVE_SPEED, 60, 60, 8);    // Drive REV 60 inches, to center base
+
+            // Drive REV 60 inches, to center base
 
 
 
@@ -529,5 +537,6 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
                 flipperPos = -1;
         }
         robot.flipper.setPosition(flipperPos);
+
     }
 }
