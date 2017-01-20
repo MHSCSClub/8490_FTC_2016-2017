@@ -105,7 +105,7 @@ public class HardwareTigerScout
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        pickup.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pickup.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         popper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Set all motors to zero power
@@ -122,6 +122,7 @@ public class HardwareTigerScout
         backRightMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
         frontRightMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
         popper.setMaxSpeed(Motors.ANDYMARK_60_CPR);
+        pickup.setMaxSpeed(Motors.TETRIX_CPR);
 
         //Set Run_TO_POSITION Motors to go nowhere
         popper.setTargetPosition(popper.getCurrentPosition());
