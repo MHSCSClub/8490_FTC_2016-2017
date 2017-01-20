@@ -52,12 +52,6 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
 
 
-    static final double     COUNTS_PER_MOTOR_REV    = Motors.ANDYMARK_40_CPR ;
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * Math.PI);
-
     // These constants define the desired driving/control characteristics
     // The can/should be tweaked to suite the specific robot drive train.
     static final double     DRIVE_SPEED             = 1;     // Nominal speed for better accuracy.
@@ -113,14 +107,17 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
             idle();
         }
         robot.gyro.resetZAxisIntegrator();
-
+        if(!opModeIsActive()){
+            stop();
+            return;
+        }
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turnBlueAutonomousPaulyP123
 
         flipper(0);
         popper(3); //Fire 1 ball
-        pickup(1.8); //Load next ball (Consider decreasing this value after zip ties implemented
+        pickup(1.8); //Load next ball (Consider decreasing this value after zip ties implemented?)
         popper(3); //Fire next ball
         flipper(1);
 
@@ -216,7 +213,7 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            moveCounts = (int)(distance * COUNTS_PER_INCH);
+            moveCounts = (int)(distance * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
             newFrontLeftTarget = robot.frontLeftMotor.getCurrentPosition() + moveCounts;
             newRearLeftTarget = robot.backLeftMotor.getCurrentPosition() + moveCounts;
             newFrontRightTarget = robot.frontRightMotor.getCurrentPosition() + moveCounts;
@@ -421,7 +418,7 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
 
         runtime.reset();
         robot.popper.setTargetPosition(robot.popper.getCurrentPosition()
-                - HardwareTigerScout.POPPER_CPR);
+                - (int)HardwareTigerScout.POPPER_CPR);
         robot.popper.setPower(-1);
 
         while(opModeIsActive() && runtime.seconds() < timeoutS && robot.popper.isBusy()) {
@@ -462,10 +459,10 @@ public class BlueAutonomousPaulyP123 extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTargetA = robot.frontLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newLeftTargetB = robot.backLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTargetA = robot.frontRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newRightTargetB = robot.backRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTargetA = robot.frontLeftMotor.getCurrentPosition() + (int)(leftInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
+            newLeftTargetB = robot.backLeftMotor.getCurrentPosition() + (int)(leftInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
+            newRightTargetA = robot.frontRightMotor.getCurrentPosition() + (int)(rightInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
+            newRightTargetB = robot.backRightMotor.getCurrentPosition() + (int)(rightInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
             robot.frontLeftMotor.setTargetPosition(newLeftTargetA);
             robot.backLeftMotor.setTargetPosition(newLeftTargetB);
             robot.frontRightMotor.setTargetPosition(newRightTargetA);

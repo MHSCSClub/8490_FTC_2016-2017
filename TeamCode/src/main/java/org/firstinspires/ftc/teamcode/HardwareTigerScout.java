@@ -33,8 +33,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareTigerScout
 {
     //Robot parameters
-    public static final int WHEEL_SIZE = 4;
-    public static final int POPPER_CPR = Motors.ANDYMARK_60_CPR*3;
+    private static final double POPPER_GEAR_RATIO = 3.0;
+    public static final double POPPER_CPR = Motors.ANDYMARK_60_CPR * POPPER_GEAR_RATIO;
+    private static final double PICKUP_GEAR_RATIO = 1.0;
+    public static final double PICKUP_CPR = Motors.TETRIX_CPR * PICKUP_GEAR_RATIO;
+
+    private static final double     DRIVE_COUNTS_PER_MOTOR_REV    = Motors.ANDYMARK_40_CPR ;
+    private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     DRIVE_COUNTS_PER_INCH         = (DRIVE_COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * Math.PI);
 
 
     /* Public OpMode members. */
@@ -46,8 +54,6 @@ public class HardwareTigerScout
     public DcMotor pickup = null;
     public Servo flipper = null;
     public ModernRoboticsI2cColorSensor colorSensor = null;
-    public CRServo leftBeacon = null;
-    public CRServo rightBeacon = null;
     public ModernRoboticsI2cGyro gyro = null;
 
     /* local OpMode members. */
@@ -74,10 +80,6 @@ public class HardwareTigerScout
         flipper = hwMap.servo.get("flipper");
         colorSensor = (ModernRoboticsI2cColorSensor) hwMap.colorSensor.get("color");
         gyro = (ModernRoboticsI2cGyro) hwMap.gyroSensor.get("gyro");
-        leftBeacon = hwMap.crservo.get("leftbeacon");
-        rightBeacon = hwMap.crservo.get("rightbeacon");
-
-        leftBeacon.setPower(1);
 
         // Set motor direction (Inverted for AndyMark motors)
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -89,16 +91,15 @@ public class HardwareTigerScout
         // Set motor direction (Normal for Tetrix/Pitsco motors)
         pickup.setDirection(DcMotorSimple.Direction.FORWARD);
 
-
+        //Set Brake/Coast Behavior
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         pickup.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         popper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // Set all motors to run without encoders.
+        // Set drive motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

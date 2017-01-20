@@ -186,7 +186,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
                         && robot.popper.getTargetPosition() <= robot.popper.getTargetPosition() + 1;
 
                 if(gamepad1.right_bumper && motorStopped){
-                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - HardwareTigerScout.POPPER_CPR);
+                    robot.popper.setTargetPosition(robot.popper.getCurrentPosition() - (int) HardwareTigerScout.POPPER_CPR);
                     robot.popper.setPower(-1);
                 } else if(motorStopped){
                     robot.popper.setPower(0);

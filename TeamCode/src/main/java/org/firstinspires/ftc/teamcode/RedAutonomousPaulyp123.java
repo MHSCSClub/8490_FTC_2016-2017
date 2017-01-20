@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 /**
- * Autonomous for BLUE. For RED, we turn 57 degrees to align with beacon, and we look for red
+ * Autonomous for BLUE. For RED, we turn 47 degrees to align with beacon, and we look for red
  * instead of blue on the left beacon.
  * The code REQUIRES encoders, an MR Gyro, and an MR Color Sensor.
  *
@@ -46,17 +46,11 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @Autonomous(name="TigerScout: PaulyP123 RED AUTO", group="Tiger Scout")
-public class RedAutonomousPaulyp123 extends LinearOpMode {
+public class RedAutonomousPaulyP123 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
 
-
-    static final double     COUNTS_PER_MOTOR_REV    = Motors.ANDYMARK_40_CPR ;
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * Math.PI);
 
     // These constants define the desired driving/control characteristics
     // The can/should be tweaked to suite the specific robot drive train.
@@ -113,34 +107,45 @@ public class RedAutonomousPaulyp123 extends LinearOpMode {
             idle();
         }
         robot.gyro.resetZAxisIntegrator();
-
+        if(!opModeIsActive()){
+            stop();
+            return;
+        }
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turnBlueAutonomousPaulyP123
 
         flipper(0);
         popper(3); //Fire 1 ball
-        pickup(1.8); //Load next ball (Consider decreasing this value after zip ties implemented
+        pickup(1.8); //Load next ball (Consider decreasing this value after zip ties implemented?)
         popper(3); //Fire next ball
         flipper(1);
 
-        encoderDrive(DRIVE_SPEED, -67.5, -67.5, 8);    // Drive FWD 67.5 inches
-        gyroTurn( TURN_SPEED, -57);         // Turn  CW to 57 Degrees
-        gyroHold( TURN_SPEED, -57, 0.5);    // Hold 57 Deg heading for a 1/2 second
-        encoderDrive(DRIVE_SPEED,-60, -60, 8);    // Drive Forward 60 inches
+        encoderDrive(DRIVE_SPEED, -66, -66, 8);    // Drive FWD 67.5 inches
+        gyroTurn( TURN_SPEED, 47);         // Turn  CW to 57 Degrees
+        gyroHold( TURN_SPEED, 47, 0.5);    // Hold 57 Deg heading for a 1/2 second
+        encoderDrive(DRIVE_SPEED,-46, -46, 8);    // Drive Forward 60 inches
+
         //DO the beacons now
         switch(beaconData(true)){  //Check if blue is on left
             case -1:
                 //Blue is on left. Poke it!
                 flipper(0);
+                encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
+
+                encoderDrive(DRIVE_SPEED, 52, 52, 8);
                 break;
             case 1:
                 flipper(2);
+                encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
+
+                encoderDrive(DRIVE_SPEED, 52, 52, 8);
                 break;
             default:
-                //ERROR! just return!
+                encoderDrive(DRIVE_SPEED, 59, 59, 8);
         };
-        encoderDrive(DRIVE_SPEED, 60, 60, 8);    // Drive REV 60 inches, to center base
+
+            // Drive REV 60 inches, to center base
 
 
 
@@ -177,115 +182,6 @@ public class RedAutonomousPaulyp123 extends LinearOpMode {
         }
     }
 
-    /**
-     *  Method to drive on a fixed compass bearing (angle), based on encoder counts.
-     *  Move will stop if either of these conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Driver stops the opmode running.
-     *
-     * @param speed      Target speed for forward motion.  Should allow for _/- variance for adjusting heading
-     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backwards.
-     * @param angle      Absolute Angle (in Degrees) relative to last gyro reset.
-     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *                   If a relative angle is required, add/subtract from current heading.
-     */
-    public void gyroDrive ( double speed,
-                            double distance,
-                            double angle) {
-
-        int     newFrontLeftTarget;
-        int     newRearLeftTarget;
-        int     newFrontRightTarget;
-        int     newRearRightTarget;
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            moveCounts = (int)(distance * COUNTS_PER_INCH);
-            newFrontLeftTarget = robot.frontLeftMotor.getCurrentPosition() + moveCounts;
-            newRearLeftTarget = robot.backLeftMotor.getCurrentPosition() + moveCounts;
-            newFrontRightTarget = robot.frontRightMotor.getCurrentPosition() + moveCounts;
-            newRearRightTarget = robot.backRightMotor.getCurrentPosition() + moveCounts;
-
-            // Set Target and Turn On RUN_TO_POSITION
-            robot.frontLeftMotor.setTargetPosition(newFrontLeftTarget);
-            robot.backLeftMotor.setTargetPosition(newRearLeftTarget);
-            robot.frontRightMotor.setTargetPosition(newFrontRightTarget);
-            robot.backRightMotor.setTargetPosition(newRearRightTarget);
-
-            robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
-            robot.frontLeftMotor.setPower(speed);
-            robot.backLeftMotor.setPower(speed);
-            robot.frontRightMotor.setPower(speed);
-            robot.backRightMotor.setPower(speed);
-            // keep looping while we are still active, and BOTH motors are running.
-            while (opModeIsActive() &&
-                    (robot.frontLeftMotor.isBusy() && robot.frontRightMotor.isBusy() &&
-                            robot.backLeftMotor.isBusy() && robot.backRightMotor.isBusy())) {
-
-                // adjust relative speed based on heading error.
-                error = getError(angle);
-                steer = getSteer(error, P_DRIVE_COEFF);
-
-                // if driving in reverse, the motor correction also needs to be reversed
-                if (distance < 0)
-                    steer *= -1.0;
-
-                leftSpeed = speed - steer;
-                rightSpeed = speed + steer;
-
-                // Normalize speeds if any one exceeds +/- 1.0;
-                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                if (max > 1.0)
-                {
-                    leftSpeed /= max;
-                    rightSpeed /= max;
-                }
-
-                robot.frontLeftMotor.setPower(-leftSpeed);
-                robot.backLeftMotor.setPower(-leftSpeed);
-                robot.frontRightMotor.setPower(-rightSpeed);
-                robot.backRightMotor.setPower(-rightSpeed);
-
-                // Display drive status for the driver.
-                telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
-                telemetry.addData("Target",  "%7d:%7d:%7d:%7d",      newFrontLeftTarget,
-                        newFrontRightTarget, newRearLeftTarget, newRearRightTarget);
-                telemetry.addData("Actual",  "%7d:%7d:%7d:%7d",
-                        robot.frontLeftMotor.getCurrentPosition(),
-                        robot.frontRightMotor.getCurrentPosition(),
-                        robot.backLeftMotor.getCurrentPosition(),
-                        robot.backRightMotor.getCurrentPosition());
-                telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            robot.frontLeftMotor.setPower(0);
-            robot.backLeftMotor.setPower(0);
-            robot.frontRightMotor.setPower(0);
-            robot.backRightMotor.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-    }
 
     /**
      *  Method to spin on central axis to point in a new direction.
@@ -413,7 +309,7 @@ public class RedAutonomousPaulyp123 extends LinearOpMode {
 
         runtime.reset();
         robot.popper.setTargetPosition(robot.popper.getCurrentPosition()
-                - HardwareTigerScout.POPPER_CPR);
+                - (int)HardwareTigerScout.POPPER_CPR);
         robot.popper.setPower(-1);
 
         while(opModeIsActive() && runtime.seconds() < timeoutS && robot.popper.isBusy()) {
@@ -454,10 +350,10 @@ public class RedAutonomousPaulyp123 extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTargetA = robot.frontLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newLeftTargetB = robot.backLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTargetA = robot.frontRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newRightTargetB = robot.backRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTargetA = robot.frontLeftMotor.getCurrentPosition() + (int)(leftInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
+            newLeftTargetB = robot.backLeftMotor.getCurrentPosition() + (int)(leftInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
+            newRightTargetA = robot.frontRightMotor.getCurrentPosition() + (int)(rightInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
+            newRightTargetB = robot.backRightMotor.getCurrentPosition() + (int)(rightInches * HardwareTigerScout.DRIVE_COUNTS_PER_INCH);
             robot.frontLeftMotor.setTargetPosition(newLeftTargetA);
             robot.backLeftMotor.setTargetPosition(newLeftTargetB);
             robot.frontRightMotor.setTargetPosition(newRightTargetA);
@@ -529,5 +425,6 @@ public class RedAutonomousPaulyp123 extends LinearOpMode {
                 flipperPos = -1;
         }
         robot.flipper.setPosition(flipperPos);
+
     }
 }
