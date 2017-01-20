@@ -125,8 +125,8 @@ public class RedAutonomousPaulyP123 extends LinearOpMode {
         flipper(2);
 
         encoderDrive(DRIVE_SPEED, -68, -68, 8);    // Drive FWD 67.5 inches
-        gyroTurn( TURN_SPEED, turn_direction * 39);         // Turn  CW to 57 Degrees
-        gyroHold( TURN_SPEED, turn_direction * 39, 0.5);    // Hold 57 Deg heading for a 1/2 second
+        gyroTurn( TURN_SPEED, turn_direction * 40);         // Turn  CW to 57 Degrees
+        gyroHold( TURN_SPEED, turn_direction * 40, 0.5);    // Hold 57 Deg heading for a 1/2 second
         encoderDrive(DRIVE_SPEED,-44, -44, 8);    // Drive Forward 60 inches
 
         //DO the beacons now
@@ -137,16 +137,16 @@ public class RedAutonomousPaulyP123 extends LinearOpMode {
                 encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
 
                 encoderDrive(DRIVE_SPEED, 2, 2, 8);
-                gyroTurn( TURN_SPEED, turn_direction * 39);         // Turn  CW to 57 Degrees
-                gyroHold( TURN_SPEED, turn_direction * 39, 0.5);    // Hold 57 Deg heading for a 1/2 second
+                gyroTurn( TURN_SPEED, turn_direction * 40);         // Turn  CW to 57 Degrees
+                gyroHold( TURN_SPEED, turn_direction * 40, 0.5);    // Hold 57 Deg heading for a 1/2 second
                 encoderDrive(DRIVE_SPEED, 50, 50, 8);
                 break;
             case 1:
                 flipper(2);
                 encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
                 encoderDrive(DRIVE_SPEED, 2, 2, 8);
-                gyroTurn( TURN_SPEED, turn_direction * 39);         // Turn  CW to 57 Degrees
-                gyroHold( TURN_SPEED, turn_direction * 39, 0.5);    // Hold 57 Deg heading for a 1/2 second
+                gyroTurn( TURN_SPEED, turn_direction * 40);         // Turn  CW to 57 Degrees
+                gyroHold( TURN_SPEED, turn_direction * 40, 0.5);    // Hold 57 Deg heading for a 1/2 second
                 encoderDrive(DRIVE_SPEED, 50, 50, 8);
 
                 break;
