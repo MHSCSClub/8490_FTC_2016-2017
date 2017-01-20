@@ -46,7 +46,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @Autonomous(name="TigerScout: PaulyP123 RED AUTO", group="Tiger Scout")
-public abstract class RedAutonomousPaulyP123 extends LinearOpMode {
+public class RedAutonomousPaulyP123 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
@@ -62,7 +62,7 @@ public abstract class RedAutonomousPaulyP123 extends LinearOpMode {
     static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private int turn_direction = -1;
+    private int turn_direction = 1;
 
     @Override
     public void runOpMode() {
@@ -110,8 +110,8 @@ public abstract class RedAutonomousPaulyP123 extends LinearOpMode {
         robot.gyro.resetZAxisIntegrator();
 
         if(isStopRequested()){
-            stop();
-            return;
+            //stop();
+            //return;
         }
 
         // Step through each leg of the path,
@@ -124,29 +124,29 @@ public abstract class RedAutonomousPaulyP123 extends LinearOpMode {
         popper(3); //Fire next ball
         flipper(2);
 
-        encoderDrive(DRIVE_SPEED, -66, -66, 8);    // Drive FWD 67.5 inches
-        gyroTurn( TURN_SPEED, turn_direction * 47);         // Turn  CW to 57 Degrees
-        gyroHold( TURN_SPEED, turn_direction * 47, 0.5);    // Hold 57 Deg heading for a 1/2 second
-        encoderDrive(DRIVE_SPEED,-46, -46, 8);    // Drive Forward 60 inches
+        encoderDrive(DRIVE_SPEED, -68, -68, 8);    // Drive FWD 67.5 inches
+        gyroTurn( TURN_SPEED, turn_direction * 39);         // Turn  CW to 57 Degrees
+        gyroHold( TURN_SPEED, turn_direction * 39, 0.5);    // Hold 57 Deg heading for a 1/2 second
+        encoderDrive(DRIVE_SPEED,-44, -44, 8);    // Drive Forward 60 inches
 
         //DO the beacons now
-        switch(beaconData(!redOrBlue())){  //Check if blue is on left
+        switch(beaconData(false)){  //Check if blue is on left
             case -1:
                 //Blue is on left. Poke it!
                 flipper(0);
                 encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
 
                 encoderDrive(DRIVE_SPEED, 2, 2, 8);
-                gyroTurn( TURN_SPEED, turn_direction * 47);         // Turn  CW to 57 Degrees
-                gyroHold( TURN_SPEED, turn_direction * 47, 0.5);    // Hold 57 Deg heading for a 1/2 second
+                gyroTurn( TURN_SPEED, turn_direction * 39);         // Turn  CW to 57 Degrees
+                gyroHold( TURN_SPEED, turn_direction * 39, 0.5);    // Hold 57 Deg heading for a 1/2 second
                 encoderDrive(DRIVE_SPEED, 50, 50, 8);
                 break;
             case 1:
                 flipper(2);
                 encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
                 encoderDrive(DRIVE_SPEED, 2, 2, 8);
-                gyroTurn( TURN_SPEED, turn_direction * 47);         // Turn  CW to 57 Degrees
-                gyroHold( TURN_SPEED, turn_direction * 47, 0.5);    // Hold 57 Deg heading for a 1/2 second
+                gyroTurn( TURN_SPEED, turn_direction * 39);         // Turn  CW to 57 Degrees
+                gyroHold( TURN_SPEED, turn_direction * 39, 0.5);    // Hold 57 Deg heading for a 1/2 second
                 encoderDrive(DRIVE_SPEED, 50, 50, 8);
 
                 break;
@@ -444,5 +444,5 @@ public abstract class RedAutonomousPaulyP123 extends LinearOpMode {
         robot.flipper.setPosition(flipperPos);
     }
 
-    public abstract boolean redOrBlue();
+
 }

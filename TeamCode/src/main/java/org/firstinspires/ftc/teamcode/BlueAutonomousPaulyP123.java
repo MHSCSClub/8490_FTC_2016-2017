@@ -46,7 +46,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @Autonomous(name="TigerScout: PaulyP123 BLUE AUTO", group="Tiger Scout")
-public abstract class BlueAutonomousPaulyP123 extends LinearOpMode {
+public class BlueAutonomousPaulyP123 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareTigerScout         robot   = new HardwareTigerScout();   // Use a Pushbot's hardware
@@ -110,8 +110,8 @@ public abstract class BlueAutonomousPaulyP123 extends LinearOpMode {
         robot.gyro.resetZAxisIntegrator();
 
         if(isStopRequested()){
-            stop();
-            return;
+            //stop();
+            //return;
         }
 
         // Step through each leg of the path,
@@ -130,7 +130,7 @@ public abstract class BlueAutonomousPaulyP123 extends LinearOpMode {
         encoderDrive(DRIVE_SPEED,-46, -46, 8);    // Drive Forward 60 inches
 
         //DO the beacons now
-        switch(beaconData(!redOrBlue())){  //Check if blue is on left
+        switch(beaconData(true)){  //Check if blue is on left
             case -1:
                 //Blue is on left. Poke it!
                 flipper(0);
@@ -444,5 +444,4 @@ public abstract class BlueAutonomousPaulyP123 extends LinearOpMode {
         robot.flipper.setPosition(flipperPos);
     }
 
-    public abstract boolean redOrBlue();
 }
