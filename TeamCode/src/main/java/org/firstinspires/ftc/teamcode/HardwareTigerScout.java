@@ -122,7 +122,7 @@ public class HardwareTigerScout
         backRightMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
         frontRightMotor.setMaxSpeed(Motors.ANDYMARK_40_CPR);
         popper.setMaxSpeed(Motors.ANDYMARK_60_CPR);
-        pickup.setMaxSpeed(Motors.TETRIX_CPR);
+        pickup.setMaxSpeed((int)(Motors.TETRIX_CPR * 1.5)); //make it go faster
 
         //Set Run_TO_POSITION Motors to go nowhere
         popper.setTargetPosition(popper.getCurrentPosition());

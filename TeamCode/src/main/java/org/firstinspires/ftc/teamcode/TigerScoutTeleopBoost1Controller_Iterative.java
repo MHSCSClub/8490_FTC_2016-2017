@@ -86,6 +86,7 @@ public class TigerScoutTeleopBoost1Controller_Iterative extends OpMode{
         robot.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.pickup.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /*

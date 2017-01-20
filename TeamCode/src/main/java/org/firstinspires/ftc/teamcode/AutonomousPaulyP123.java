@@ -116,11 +116,11 @@ public abstract class AutonomousPaulyP123 extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turnBlueAutonomousPaulyP123
 
-        flipper(0);
-        popper(3); //Fire 1 ball
-        pickup(2); //Load next ball (Consider decreasing this value after zip ties implemented?)
-        popper(3); //Fire next ball
         flipper(1);
+        popper(3); //Fire 1 ball
+        pickup(3); //Load next ball (Consider decreasing this value after zip ties implemented?)
+        popper(3); //Fire next ball
+        flipper(2);
 
         encoderDrive(DRIVE_SPEED, -66, -66, 8);    // Drive FWD 67.5 inches
         gyroTurn( TURN_SPEED, turn_direction * 47);         // Turn  CW to 57 Degrees
@@ -134,13 +134,19 @@ public abstract class AutonomousPaulyP123 extends LinearOpMode {
                 flipper(0);
                 encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
 
-                encoderDrive(DRIVE_SPEED, 52, 52, 8);
+                encoderDrive(DRIVE_SPEED, 2, 2, 8);
+                gyroTurn( TURN_SPEED, turn_direction * 47);         // Turn  CW to 57 Degrees
+                gyroHold( TURN_SPEED, turn_direction * 47, 0.5);    // Hold 57 Deg heading for a 1/2 second
+                encoderDrive(DRIVE_SPEED, 50, 50, 8);
                 break;
             case 1:
                 flipper(2);
                 encoderDrive(DRIVE_SPEED,-8, -8, 8);    // Drive Forward 60 inches
+                encoderDrive(DRIVE_SPEED, 2, 2, 8);
+                gyroTurn( TURN_SPEED, turn_direction * 47);         // Turn  CW to 57 Degrees
+                gyroHold( TURN_SPEED, turn_direction * 47, 0.5);    // Hold 57 Deg heading for a 1/2 second
+                encoderDrive(DRIVE_SPEED, 50, 50, 8);
 
-                encoderDrive(DRIVE_SPEED, 52, 52, 8);
                 break;
             default:
                 encoderDrive(DRIVE_SPEED, 59, 59, 8);
@@ -322,20 +328,22 @@ public abstract class AutonomousPaulyP123 extends LinearOpMode {
     }
     private void pickup(double timeoutS){
         runtime.reset();
-        robot.pickup.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.pickup.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         sleep(50);
         robot.pickup.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        double power = 0.6;
+        double power = 1;
         robot.pickup.setPower(power);
-        robot.pickup.setTargetPosition(robot.pickup.getCurrentPosition() + (int)HardwareTigerScout.PICKUP_CPR);
+        robot.pickup.setTargetPosition(robot.pickup.getCurrentPosition() + (3 * (int)HardwareTigerScout.PICKUP_CPR));
         telemetry.addData("pickup", "%.2f", power);
-        while(opModeIsActive() && runtime.seconds() < timeoutS){
+        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.pickup.isBusy()){
             idle();
-            telemetry.addData("pickup_pos", "%.2f", robot.pickup.getCurrentPosition());
+            telemetry.addData("pickup_pos", "%.2f", (float)robot.pickup.getCurrentPosition());
+            telemetry.update();
         }
         power = 0;
         robot.pickup.setPower(power);
         telemetry.addData("pickup", "%.2f", power);
+        telemetry.update();
     }
 
     /*
