@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Sensor: MR Color", group = "Sensor")
+@TeleOp(name = "MR Color Sensor Tester", group = "Sensor")
 public class ColorTester extends LinearOpMode {
 
   ColorSensor colorSensor;    // Hardware Device Object
@@ -78,10 +78,10 @@ public class ColorTester extends LinearOpMode {
     boolean bCurrState = false;
 
     // bLedOn represents the state of the LED.
-    boolean bLedOn = true;
+    boolean bLedOn = false;
 
     // get a reference to our ColorSensor object.
-    colorSensor = hardwareMap.colorSensor.get("color");
+    colorSensor = hardwareMap.colorSensor.get("sensor_color");
 
     // Set the LED in the beginning
     colorSensor.enableLed(bLedOn);
@@ -114,11 +114,11 @@ public class ColorTester extends LinearOpMode {
       telemetry.addData("LED", bLedOn ? "On" : "Off");
       telemetry.addData("Clear", colorSensor.alpha());
       telemetry.addData("Red  ", colorSensor.red());
-      telemetry.addData("Green ", colorSensor.green());
+      telemetry.addData("Green", colorSensor.green());
       telemetry.addData("Blue ", colorSensor.blue());
-      telemetry.addData("Hue ", hsvValues[0]);
+      telemetry.addData("Hue", hsvValues[0]);
 
-        // change the background color to match the color detected by the RGB sensor.
+      // change the background color to match the color detected by the RGB sensor.
       // pass a reference to the hue, saturation, and value array as an argument
       // to the HSVToColor method.
       relativeLayout.post(new Runnable() {

@@ -102,16 +102,18 @@ public abstract class AutonomousPaulyP123 extends LinearOpMode {
         robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Wait for the game to start (Display Gyro value), and reset gyro before we move..
-        while (!isStarted()) {
+        while (!isStarted() && !isStopRequested()) {
             telemetry.addData(">", "Robot Heading = %d", robot.gyro.getIntegratedZValue());
             telemetry.update();
             idle();
         }
         robot.gyro.resetZAxisIntegrator();
-        if(!opModeIsActive()){
+
+        if(isStopRequested()){
             stop();
             return;
         }
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turnBlueAutonomousPaulyP123
@@ -440,7 +442,6 @@ public abstract class AutonomousPaulyP123 extends LinearOpMode {
                 flipperPos = -1;
         }
         robot.flipper.setPosition(flipperPos);
-
     }
 
     public abstract boolean redOrBlue();
